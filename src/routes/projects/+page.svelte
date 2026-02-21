@@ -1,7 +1,9 @@
 <svelte:head>
   <title>Projects</title>
 </svelte:head>
-
+<script>
+  import projects from "$lib/projects.json";
+</script>
 <nav>
   <a href="/6c35_lab3/">Home</a>
   <a href="/6c35_lab3/projects">Projects</a>
@@ -11,6 +13,7 @@
 </nav>
 
 <h1>My Projects</h1>
+<pre>{JSON.stringify(projects, null, "\t")}</pre>
 <div class="projects homepageContent">
     <article>
         <h2>Lorem ipsum dolor sit.</h2>
