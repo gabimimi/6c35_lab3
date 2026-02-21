@@ -22,7 +22,7 @@
         <a class="btn ghost" href="resume.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
       </section>
 
-      <iframe class="resumeFrame" src="/Resume.pdf" title="Gabriela Miranda's Resume"></iframe>
+      <iframe class="resumeFrame" src="/6c35_lab3/Resume.pdf" title="Gabriela Miranda's Resume"></iframe>
 
       <section aria-labelledby="education">
         <h2 id="education">Education</h2>
