@@ -1,14 +1,15 @@
 <svelte:head>
   <title>Resume</title>
 </svelte:head>
-<svelte:body>
-  <nav>
-    <a href="../index.html">Home</a>
-    <a href="../projects/index.html">Projects</a>
-    <a href="../contact/index.html">Contact</a>
-    <a href="index.html" class="current">Resume</a>
-    <a href="https://github.com/gabimimi" target="_blank" rel="noopener noreferrer">GitHub</a>
-  </nav>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/projects">Projects</a>
+  <a href="/contact">Contact</a>
+  <a href="/resume">Resume</a>
+  <a href="https://github.com/gabimimi" target="_blank">GitHub</a>
+</nav>
+    
 
   <h1>Resume</h1>
 
@@ -21,7 +22,7 @@
         <a class="btn ghost" href="resume.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
       </section>
 
-      <iframe class="resumeFrame" src="resume.pdf" title="Gabriela Miranda's Resume"></iframe>
+      <iframe class="resumeFrame" src="/Resume.pdf" title="Gabriela Miranda's Resume"></iframe>
 
       <section aria-labelledby="education">
         <h2 id="education">Education</h2>
@@ -72,5 +73,5 @@
       </section>
     </section>
   </section>
-</svelte:body>
+
 

@@ -1,11 +1,12 @@
+<svelte:head>
+    <title>Home</title>
+</svelte:head>
 <nav>
-
-    <a class="current" href="index.html">Home</a>
-    <a href="projects/index.html">Projects</a>
-    <a href="contact/index.html">Contact</a>
-    <a href="resume/index.html">Resume</a>
-    <a href="https://github.com/gabimimi" target="_blank" rel="noopener noreferrer">GitHub</a>
-
+  <a href="/">Home</a>
+  <a href="/projects">Projects</a>
+  <a href="/contact">Contact</a>
+  <a href="/resume">Resume</a>
+  <a href="https://github.com/gabimimi" target="_blank">GitHub</a>
 </nav>
 
 <!-- <h1> (Heading 1) represents the main heading of a webpage or a section.-->
