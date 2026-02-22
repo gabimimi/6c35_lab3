@@ -16,7 +16,7 @@
 
 <h1>Projects ({projects.length})</h1>
 
-<div class="projects">
+<div class="projects homepageContent">
   {#each projects as p}
     <Project data={p} />
   {/each}
