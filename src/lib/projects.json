@@ -11,7 +11,7 @@
   },
   {
     "title": "6.1800 - Computer Systems: Satellite Network Protocol",
-    "image": "/6c35_lab3/images/satellite.jpeg",
+    "image": "/6c35_lab3/images/satellite.jpg",
     "description": "Proposed and defined a comprehensive network protocol for satellite-to-satellite communication. Designed system behaviors for edge cases and evaluated performance trade-offs, reliability, and design flaws."
   }
 ]
