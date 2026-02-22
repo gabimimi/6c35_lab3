@@ -134,9 +134,7 @@ nav a.current{
   grid-template-columns: repeat(auto-fill, minmax(30%, 350px));
 }
 
-.projects img{
-  width: 100%;
-}
+
 .projectsGrid{
   margin-top: 18px;
   display: grid;
@@ -144,31 +142,6 @@ nav a.current{
   gap: 14px;
 }
 
-.projectCard{
-  border: 1px solid rgba(17, 24, 39, 0.10);
-  border-radius: 16px;
-  padding: 14px 14px 12px;
-  background: rgba(255,255,255,0.75);
-}
-
-.projectCard h2{
-  margin: 0 0 6px;
-  font-size: 1.8rem;
-  letter-spacing: -0.01em;
-}
-
-.projects h2{
-  margin: 0 0 6px;
-  font-size: 1.8rem;
-  letter-spacing: -0.01em;
-}
-
-.projectCard p{
-  margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.55;
-  color: var(--muted);
-}
 
 .contactForm{
   margin-top: 16px;
