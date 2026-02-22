@@ -12,7 +12,7 @@
   <a href="https://github.com/gabimimi" target="_blank" rel="noreferrer">GitHub</a>
 </nav>
 
-<h1>My Projects</h1>
+<h1>My Projects ({projects.length})</h1>
 <div class="projects homepageContent">
     {#each projects as p}
         <article>
