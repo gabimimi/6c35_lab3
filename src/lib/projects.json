@@ -1,17 +1,17 @@
 [
   {
     "title": "6.4500 - Web Design: Messaging + Event Planning App",
-    "image": "/images/web-design-messaging.png",
+    "image": "/6c35_lab3/images/web-design-messaging.webp",
     "description": "Developed a full-stack WhatsApp-like messaging app with features for event planning informed by user surveys. Designed both front-end and back-end for seamless real-time communication and usability."
   },
   {
     "title": "6.1020 - Software Construction: Web-Based Board Game",
-    "image": "/images/board-game.png",
+    "image": "/6c35_lab3/images/star-battle.png",
     "description": "Built a full-stack web-based board game, including a robust backend server capable of supporting multiple concurrent games. Recognized for accuracy, correctness, and a highly intuitive user interface."
   },
   {
     "title": "6.1800 - Computer Systems: Satellite Network Protocol",
-    "image": "/images/satellite-protocol.png",
+    "image": "/6c35_lab3/images/satellite.jpeg",
     "description": "Proposed and defined a comprehensive network protocol for satellite-to-satellite communication. Designed system behaviors for edge cases and evaluated performance trade-offs, reliability, and design flaws."
   }
 ]
