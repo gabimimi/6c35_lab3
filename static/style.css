@@ -129,10 +129,6 @@ nav a.current{
   padding-bottom: 0.1em;
 }
 
-.projects{
-  display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 350px));
-}
 
 
 .projectsGrid{
