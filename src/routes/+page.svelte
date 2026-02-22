@@ -20,31 +20,24 @@
 
 <h1>Gabriela Miranda</h1>
 
-<div class="homeGrid">
-    <section class="homepageContent">
-        <p>Hi! I'm Gabriela Miranda, MIT '27, 6-3 (CS) + 14-1 (Econ), from Paraguay. Right now 
-            I'm at J-PAL building an NLP-powered search tool that makes it easier to find the right 
-            researchers + work without digging forever. I'm there because I care about real impact: research that 
-            actually turns into better decisions for real people. I also TA Math for CS, so I spend a lot of 
-            time making fundamentals feel less scary. Off-screen, I play piano and sing!🎹</p>
+<div class="homeRow">
+  <div class="homepageContent">
+    <!-- your existing bio text + image goes here -->
+  </div>
 
-        <!-- <img> (Image) tag is used to display images.-->
-        <img src="images/gabi.jpg" alt="a pic of myself... hopefully it loads soon!">
-    </section>
-
-    <h2>Latest Projects</h2>
-
-    <div class="projects homepageContent">
-    {#each projects.slice(0, 3) as p}
-        <Project data={p} />
-    {/each}
-    </div>
-
+  <section class="readingPanel">
     <h2>What I’m Reading</h2>
-
     <div class="reading">
-    {#each reading as item}
+      {#each reading as item}
         <ReadingItem data={item} />
-    {/each}
+      {/each}
     </div>
+  </section>
+</div>
+
+<h2>Latest Projects</h2>
+<div class="projects highlights">
+  {#each projects.slice(0, 3) as p}
+    <Project data={p} />
+  {/each}
 </div>

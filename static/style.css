@@ -21,6 +21,8 @@ body{
     radial-gradient(900px 500px at 85% 20%, rgba(255,111,174,0.10), transparent 55%),
     var(--bg);
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: flex-start;
   max-width: 100%;
 }
@@ -82,25 +84,6 @@ h1::after{
   background: #fafafa;
   box-shadow: 0 12px 30px rgba(17, 24, 39, 0.10);
   
-}
-
-.homepageContent{
-  width: min(980px, 100%);
-  margin: 0 auto 18px;
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
-.homepageContent p{
-  flex: 1;
-  min-width: 280px;
-}
-
-.homepageContent img{
-  width: 320px;        /* or 40% if you prefer */
-  max-width: 45%;
 }
 
 /* Nav */
@@ -314,28 +297,34 @@ nav a.current{
   margin: 0 auto;
 }
 
-.homeGrid{
+.homeRow{
   width: min(980px, 100%);
   display: flex;
   gap: 18px;
   align-items: flex-start;
+  margin: 0 auto 18px;
 }
 
 .homepageContent{
-  flex: 1 1 55%;
+  width: auto;           /* override your 60% */
+  flex: 0 0 65%;
 }
 
-.readingSection{
-  flex: 1 1 45%;
+.readingPanel{
+  flex: 0 0 35%;
 }
 
 .reading{
-  display: grid;
-  gap: 12px;
+  width: 100%;           /* override your min(980px,100%) */
+  margin: 0;
 }
 
-/* mobile */
 @media (max-width: 900px){
-  .homeGrid{ flex-direction: column; }
-  .homepageContent, .readingSection{ flex: 1 1 auto; width: 100%; }
+  .homeRow{
+    flex-direction: column;
+  }
+  .homepageContent,
+  .readingPanel{
+    flex: 1 1 auto;
+  }
 }
