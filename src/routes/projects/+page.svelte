@@ -17,7 +17,7 @@
 <h1>Projects ({projects.length})</h1>
 
 <div class="projects homepageContent">
-  {#each projects as p}
+  {#each projects.slice(0, 3) as p}
     <Project data={p} />
   {/each}
 </div>
