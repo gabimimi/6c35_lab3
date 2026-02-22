@@ -1,6 +1,10 @@
 <svelte:head>
     <title>Home</title>
 </svelte:head>
+<script>
+  import projects from "$lib/projects.json";
+  import Project from "$lib/Project.svelte";
+</script>
 <nav>
   <a href="/6c35_lab3/">Home</a>
   <a href="/6c35_lab3/projects">Projects</a>
@@ -23,3 +27,11 @@
     <!-- <img> (Image) tag is used to display images.-->
     <img src="images/gabi.jpg" alt="a pic of myself... hopefully it loads soon!">
 </section>
+
+<h2>Latest Projects</h2>
+
+<div class="projects homepageContent">
+  {#each projects.slice(0, 3) as p}
+    <Project data={p} />
+  {/each}
+</div>
