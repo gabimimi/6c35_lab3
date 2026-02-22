@@ -1,0 +1,23 @@
+[
+  {
+    "title": "The Pragmatic Programmer",
+    "author": "Andrew Hunt & David Thomas",
+    "image": "/6c35_lab3/images/reading/pragmatic-programmer.jpg",
+    "link": "https://pragprog.com/titles/tpp20/the-pragmatic-programmer/",
+    "year": 2019
+  },
+  {
+    "title": "Clean Code",
+    "author": "Robert C. Martin",
+    "image": "/6c35_lab3/images/reading/clean-code.jpg",
+    "link": "https://www.pearson.com/en-us/subject-catalog/p/clean-code/P200000003066",
+    "year": 2008
+  },
+  {
+    "title": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "image": "/6c35_lab3/images/reading/ddia.jpg",
+    "link": "https://dataintensive.net/",
+    "year": 2017
+  }
+]

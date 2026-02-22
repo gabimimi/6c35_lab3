@@ -290,4 +290,35 @@ nav a.current{
   background: transparent;
 }
 
+.reading{
+  display: grid;
+  gap: 12px;
+  width: min(980px, 100%);
+  margin: 0 auto;
+}
 
+.homeGrid{
+  width: min(980px, 100%);
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.homepageContent{
+  flex: 1 1 55%;
+}
+
+.readingSection{
+  flex: 1 1 45%;
+}
+
+.reading{
+  display: grid;
+  gap: 12px;
+}
+
+/* mobile */
+@media (max-width: 900px){
+  .homeGrid{ flex-direction: column; }
+  .homepageContent, .readingSection{ flex: 1 1 auto; width: 100%; }
+}
