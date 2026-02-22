@@ -55,7 +55,7 @@ h1::after{
 
 /* 2-column card */
 .homepageContent{
-  width: 60%;
+  width: 80%;
   margin: 0 auto 18px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -293,12 +293,12 @@ nav a.current{
 .reading{
   display: grid;
   gap: 12px;
-  width: min(980px, 100%);
+  width: min(1200px, 100%);
   margin: 0 auto;
 }
 
 .homeRow{
-  width: min(980px, 100%);
+  width: min(1200px, 100%);
   display: flex;
   gap: 18px;
   align-items: flex-start;
