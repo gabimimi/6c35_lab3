@@ -1,6 +1,6 @@
 :root{
   /* enable dark UI defaults for form controls / scrollbar, etc */
-  color-scheme: dark;
+  color-scheme: light dark;
 
   /* DARK THEME TOKENS */
   --bg: oklch(17% 2% 250);          /* page background */
