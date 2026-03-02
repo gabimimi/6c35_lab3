@@ -1,7 +1,8 @@
 <script>
   import { base } from "$app/paths";
   import { page } from "$app/stores";
-
+  import "../style.css";
+  
   let pages = [
     { url: "/", title: "About" },
     { url: "/projects", title: "Projects" },
@@ -66,10 +67,7 @@
 <slot />
 
 <style>
-    /* Nav */
-
-
-
+    
     nav{
         width: 100%;
         margin: 0 auto;
@@ -142,6 +140,4 @@
         border-radius: 999px;
         padding: 6px 10px;
     }
-
-
 </style>
