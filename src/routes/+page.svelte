@@ -8,13 +8,7 @@
   import reading from "$lib/reading.json";
   import ReadingItem from "$lib/ReadingItem.svelte";
 </script>
-<nav>
-  <a href="/6c35_lab3/">Home</a>
-  <a href="/6c35_lab3/projects">Projects</a>
-  <a href="/6c35_lab3/contact">Contact</a>
-  <a href="/6c35_lab3/resume">Resume</a>
-  <a href="https://github.com/gabimimi" target="_blank" rel="noreferrer">GitHub</a>
-</nav>
+
 
 
 
