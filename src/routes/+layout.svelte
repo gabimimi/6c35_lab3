@@ -1,7 +1,6 @@
 <script>
   import { base } from "$app/paths";
   import { page } from "$app/stores";
-  import "../style.css";
 
   let pages = [
     { url: "/", title: "About" },
@@ -11,14 +10,25 @@
     { url: "https://github.com/gabimimi", title: "Github" },
   ];
 
+  // Safe localStorage (SSR-safe)
+  const localStorage = globalThis.localStorage ?? {};
+
+  // 3 states: "auto" | "light" | "dark"
   let theme = "auto";
 
-  $: if (typeof document !== "undefined") {
-    const root = document.documentElement;
-    root.dataset.theme = theme;
+  if (localStorage.theme) {
+    theme = localStorage.theme;
+  }
 
-    // keep browser controls consistent too
-    root.style.setProperty(
+  $: if (typeof document !== "undefined") {
+    // store preference
+    localStorage.theme = theme;
+
+    // apply to <html> for CSS selectors
+    document.documentElement.dataset.theme = theme;
+
+    // also set CSS color-scheme for browser UI controls
+    document.documentElement.style.setProperty(
       "color-scheme",
       theme === "auto" ? "light dark" : theme
     );
