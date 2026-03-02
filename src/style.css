@@ -1,12 +1,19 @@
 :root{
-  --bg: #f6f6fb;
-  --card: #ffffff;
-  --text: #111827;
-  --muted: #4b5563;
+  /* enable dark UI defaults for form controls / scrollbar, etc */
+  color-scheme: dark;
+
+  /* DARK THEME TOKENS */
+  --bg: oklch(17% 2% 250);          /* page background */
+  --card: oklch(22% 2.5% 250);      /* card surfaces */
+  --text: oklch(94% 2% 250);        /* main text */
+  --muted: oklch(78% 2% 250);       /* secondary text */
   --accent-color: #6d5efc;
-  --border: oklch(50% 10% 200 / 40%);
-  --shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
-  color-scheme: dark; 
+
+  /* border that stays subtle on dark */
+  --border: oklch(55% 6% 250 / 35%);
+
+  /* shadows should be darker + softer in dark mode */
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
 }
 
 *{ box-sizing: border-box; }
@@ -17,10 +24,13 @@ body{
   padding: 40px 18px;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
   color: var(--text);
+
+  /* darken your gradients so they glow on dark */
   background:
-    radial-gradient(900px 500px at 15% 15%, rgba(109,94,252,0.10), transparent 60%),
-    radial-gradient(900px 500px at 85% 20%, rgba(255,111,174,0.10), transparent 55%),
+    radial-gradient(900px 500px at 15% 15%, rgba(109,94,252,0.22), transparent 60%),
+    radial-gradient(900px 500px at 85% 20%, rgba(255,111,174,0.16), transparent 55%),
     var(--bg);
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,10 +75,9 @@ h1::after{
   padding: 26px;
   display: flex;
   justify-content: center;
-
 }
 
-/* Bio text: bigger + readable */
+/* Bio text */
 .homepageContent p{
   margin: 0;
   color: var(--muted);
@@ -78,17 +87,16 @@ h1::after{
 
 .homepageContent img{
   width: 50%;
-  height: auto;          /* key: don't force height */
-  object-fit: contain;   /* extra safety */
+  height: auto;
+  object-fit: contain;
   border-radius: 18px;
   border: 1px solid var(--border);
-  background: #fafafa;
-  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.10);
-  
+
+  /* CHANGED: was #fafafa */
+  background: oklch(20% 2% 250);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
 }
-
-
-
 
 .projectsGrid{
   margin-top: 18px;
@@ -96,7 +104,6 @@ h1::after{
   grid-template-columns: 3fr 3fr;
   gap: 14px;
 }
-
 
 .contactForm{
   margin-top: 16px;
@@ -117,7 +124,10 @@ h1::after{
   padding: 12px 12px;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: #fff;
+
+  /* CHANGED: was #fff */
+  background: oklch(20% 2% 250);
+
   font: inherit;
   color: var(--text);
 }
@@ -128,11 +138,14 @@ h1::after{
 }
 
 .contactForm button{
-
   padding: 10px 16px;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--accent-color);
+
+  /* add contrast on dark buttons */
+  color: white;
+
   font-weight: 700;
   cursor: pointer;
   transition: transform 140ms ease, box-shadow 140ms ease;
@@ -140,9 +153,8 @@ h1::after{
 
 .contactForm button:hover{
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
 }
-
 
 .resumeWrap{
   align-items: flex-start;
@@ -151,7 +163,6 @@ h1::after{
 .resumeWrap > section{
   width: 100%;
 }
-
 
 .resumeWrap h2{
   margin: 18px 0 10px;
@@ -171,7 +182,6 @@ h1::after{
   color: var(--muted);
 }
 
-
 .resumeWrap ul{
   margin: 8px 0 14px;
   padding-left: 18px;
@@ -184,7 +194,6 @@ h1::after{
   line-height: 1.55;
 }
 
-
 .resumeWrap article{
   padding: 14px 0;
   border-top: 1px solid var(--border);
@@ -193,7 +202,6 @@ h1::after{
 .resumeWrap article:first-of-type{
   border-top: none;
 }
-
 
 .resumeTop{
   display: flex;
@@ -208,21 +216,21 @@ h1::after{
   white-space: nowrap;
 }
 
-
 .resumeWrap time{
   font-weight: 600;
 }
-
 
 .resumeFrame{
   width: 100%;
   height: 70vh;
   border: 1px solid var(--border);
   border-radius: 18px;
-  background: #fff;
+
+  /* CHANGED: was #fff */
+  background: oklch(20% 2% 250);
+
   margin-top: 10px;
 }
-
 
 .btn{
   display: inline-block;
@@ -232,13 +240,16 @@ h1::after{
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.90);
+
+  /* CHANGED: was rgba(255,255,255,0.90) */
+  background: oklch(22% 2.5% 250 / 85%);
+
   transition: transform 140ms ease, box-shadow 140ms ease;
 }
 
 .btn:hover{
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
 }
 
 .btn.ghost{
@@ -261,7 +272,7 @@ h1::after{
 }
 
 .homepageContent{
-  width: auto;           /* override your 60% */
+  width: auto;
   flex: 0 0 65%;
 }
 
@@ -270,7 +281,7 @@ h1::after{
 }
 
 .reading{
-  width: 100%;           /* override your min(980px,100%) */
+  width: 100%;
   margin: 0;
 }
 
