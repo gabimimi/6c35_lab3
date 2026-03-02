@@ -9,8 +9,6 @@
     { url: "/contact", title: "Contact" },
     { url: "https://github.com/gabimimi", title: "Github" },
   ];
-
-  const norm = (p) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
 </script>
 
 <nav>
@@ -20,8 +18,11 @@
       target={p.url.startsWith("http") ? "_blank" : null}
       rel={p.url.startsWith("http") ? "noopener noreferrer" : null}
       class:current={
-        !p.url.startsWith("http") &&
-        norm($page.url.pathname) === norm(base + p.url)
+        p.url.startsWith("http")
+          ? false
+          : p.url === "/"
+            ? $page.url.pathname === (base + "/")
+            : $page.url.pathname.startsWith(base + p.url)
       }
     >
       {p.title}
