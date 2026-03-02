@@ -11,15 +11,23 @@
     { url: "https://github.com/gabimimi", title: "Github" },
   ];
 
-  let scheme = "light dark";
+  let theme = "auto";
 
-  // reactive: whenever scheme changes, set it on <html>
-  $: document?.documentElement?.style?.setProperty("color-scheme", scheme);
+  $: if (typeof document !== "undefined") {
+    const root = document.documentElement;
+    root.dataset.theme = theme;
+
+    // keep browser controls consistent too
+    root.style.setProperty(
+      "color-scheme",
+      theme === "auto" ? "light dark" : theme
+    );
+  }
 </script>
 <label class="color-scheme-switch">
   Theme:
-  <select bind:value={scheme}>
-    <option value="light dark">Automatic</option>
+  <select bind:value={theme}>
+    <option value="auto">Automatic</option>
     <option value="light">Light</option>
     <option value="dark">Dark</option>
   </select>
@@ -113,7 +121,7 @@
         box-shadow: var(--shadow);
         font-weight: 700;
         color: var(--text);
-        z-index: 50;
+        z-index: 2000;
     }
 
     .color-scheme-switch select{
@@ -124,5 +132,6 @@
         border-radius: 999px;
         padding: 6px 10px;
     }
+
 
 </style>
