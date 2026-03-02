@@ -1,9 +1,26 @@
+<script>
+  import { base } from "$app/paths";
+
+  let pages = [
+    { url: "/", title: "About" },
+    { url: "/projects", title: "Projects" },
+    { url: "/resume", title: "Resume" },
+    { url: "/contact", title: "Contact" },
+    { url: "https://github.com/gabimimi", title: "Github", external: true },
+  ];
+</script>
+
 <nav>
-    <a href="/6c35_lab3/" class="current">About</a>
-    <a href="/6c35_lab3/projects">Projects</a>
-    <a href="/6c35_lab3/resume">Resume</a>
-    <a href="/6c35_lab3/contact">Contact</a>
-    <a href="https://github.com/gabimimi" target="_blank">Github</a>
+  {#each pages as p}
+    <a
+      href={p.external ? p.url : base + p.url}
+      class={p.title === "About" ? "current" : ""}
+      target={p.external ? "_blank" : undefined}
+      rel={p.external ? "noopener noreferrer" : undefined}
+    >
+      {p.title}
+    </a>
+  {/each}
 </nav>
 
 <slot />
