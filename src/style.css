@@ -38,6 +38,48 @@
   --article-bg: rgba(255,255,255,0.75);
   --img-bg: #fafafa;
 }
+
+:root[data-theme="light"]{
+  color-scheme: light dark;
+
+  /* LIGHT THEME TOKENS (your original) */
+  --bg: #f6f6fb;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #4b5563;
+  --accent-color: #6d5efc;
+  --border: rgba(17, 24, 39, 0.10);
+  --shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
+
+  /* surfaces used in a few places (so we don't hardcode #fff/#fafafa) */
+  --surface: #ffffff;   /* inputs, frames */
+  --surface2: #fafafa;  /* img bg */
+  --btn-bg: rgba(255,255,255,0.90);
+  --btn-text: var(--text);
+  --btn-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+  --img-shadow: 0 12px 30px rgba(17, 24, 39, 0.10);
+
+  /* gradient intensities */
+  --g1: rgba(109,94,252,0.10);
+  --g2: rgba(255,111,174,0.10);
+
+  --panel-bg: rgba(255,255,255,0.75); /* light */
+  --cover-bg: #fafafa;                /* light */
+
+  /* nav-specific tokens (LIGHT defaults) */
+  --nav-border-color: oklch(80% 3% 250 / 55%);
+  --nav-link-bg: rgba(255,255,255,0.85);
+  --nav-hover-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+
+  /* reuse your gradient intensity vars if you made them earlier */
+  --g1: rgba(109,94,252,0.10);
+  --g2: rgba(255,111,174,0.10);
+
+  --article-border: rgba(17, 24, 39, 0.10);
+  --article-bg: rgba(255,255,255,0.75);
+  --img-bg: #fafafa;
+}
+
 :root[data-theme="dark"]{
   /* DARK THEME TOKENS (your dark mode) */
   --bg: oklch(17% 2% 250);
