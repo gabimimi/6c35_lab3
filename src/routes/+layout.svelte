@@ -2,7 +2,7 @@
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import "../style.css";
-  
+
   let pages = [
     { url: "/", title: "About" },
     { url: "/projects", title: "Projects" },
@@ -140,4 +140,13 @@
         border-radius: 999px;
         padding: 6px 10px;
     }
+
+    @media (max-width: 600px){
+        .color-scheme-switch{
+            top: auto;
+            bottom: 70px;
+            right: 14px;
+        }
+    }
+
 </style>
