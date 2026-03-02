@@ -46,7 +46,8 @@
         position: fixed;
         top: 0px;
         z-index: 1000;
-        border-bottom: 1px solid oklch(80% 3% 200);
+        --border-color: oklch(50% 10% 200 / 40%);
+        border-bottom: 2px solid var(--border-color);
         padding-bottom: 6px;
         background:
             radial-gradient(900px 500px at 15% 15%, rgba(109,94,252,0.10), transparent 60%),
@@ -73,7 +74,7 @@
     }
 
     nav a.current{
-        border-bottom: 0.4em solid oklch(80% 3% 200);
+        border-bottom: 4px solid var(--border-color);
         padding-bottom: 0.1em;
     }
 
