@@ -144,7 +144,7 @@
     @media (max-width: 600px){
         .color-scheme-switch{
             top: auto;
-            bottom: 35px;
+            bottom: 14px;
             right: 14px;
         }
     }
