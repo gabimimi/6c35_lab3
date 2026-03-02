@@ -1,19 +1,42 @@
 :root{
-  /* enable dark UI defaults for form controls / scrollbar, etc */
   color-scheme: light dark;
 
-  /* DARK THEME TOKENS */
-  --bg: oklch(17% 2% 250);          /* page background */
-  --card: oklch(22% 2.5% 250);      /* card surfaces */
-  --text: oklch(94% 2% 250);        /* main text */
-  --muted: oklch(78% 2% 250);       /* secondary text */
+  /* LIGHT THEME TOKENS (your original) */
+  --bg: #f6f6fb;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #4b5563;
   --accent-color: #6d5efc;
+  --border: rgba(17, 24, 39, 0.10);
+  --shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
 
-  /* border that stays subtle on dark */
-  --border: oklch(55% 6% 250 / 35%);
+  /* surfaces used in a few places (so we don't hardcode #fff/#fafafa) */
+  --surface: #ffffff;   /* inputs, frames */
+  --surface2: #fafafa;  /* img bg */
+  --btn-bg: rgba(255,255,255,0.90);
+  --btn-text: var(--text);
+  --btn-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+  --img-shadow: 0 12px 30px rgba(17, 24, 39, 0.10);
 
-  /* shadows should be darker + softer in dark mode */
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  /* gradient intensities */
+  --g1: rgba(109,94,252,0.10);
+  --g2: rgba(255,111,174,0.10);
+
+  --panel-bg: rgba(255,255,255,0.75); /* light */
+  --cover-bg: #fafafa;                /* light */
+
+  /* nav-specific tokens (LIGHT defaults) */
+  --nav-border-color: oklch(80% 3% 250 / 55%);
+  --nav-link-bg: rgba(255,255,255,0.85);
+  --nav-hover-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+
+  /* reuse your gradient intensity vars if you made them earlier */
+  --g1: rgba(109,94,252,0.10);
+  --g2: rgba(255,111,174,0.10);
+
+  --article-border: rgba(17, 24, 39, 0.10);
+  --article-bg: rgba(255,255,255,0.75);
+  --img-bg: #fafafa;
 }
 
 *{ box-sizing: border-box; }
@@ -27,8 +50,8 @@ body{
 
   /* darken your gradients so they glow on dark */
   background:
-    radial-gradient(900px 500px at 15% 15%, rgba(109,94,252,0.22), transparent 60%),
-    radial-gradient(900px 500px at 85% 20%, rgba(255,111,174,0.16), transparent 55%),
+    radial-gradient(900px 500px at 15% 15%, var(--g1), transparent 60%),
+    radial-gradient(900px 500px at 85% 20%, var(--g2), transparent 55%),
     var(--bg);
 
   display: flex;
@@ -93,9 +116,8 @@ h1::after{
   border: 1px solid var(--border);
 
   /* CHANGED: was #fafafa */
-  background: oklch(20% 2% 250);
-
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  background: var(--surface2);
+  box-shadow: var(--img-shadow);
 }
 
 .projectsGrid{
@@ -126,7 +148,7 @@ h1::after{
   border: 1px solid var(--border);
 
   /* CHANGED: was #fff */
-  background: oklch(20% 2% 250);
+  background: var(--surface);
 
   font: inherit;
   color: var(--text);
@@ -227,7 +249,7 @@ h1::after{
   border-radius: 18px;
 
   /* CHANGED: was #fff */
-  background: oklch(20% 2% 250);
+  background: var(--surface);
 
   margin-top: 10px;
 }
@@ -242,14 +264,15 @@ h1::after{
   border: 1px solid var(--border);
 
   /* CHANGED: was rgba(255,255,255,0.90) */
-  background: oklch(22% 2.5% 250 / 85%);
+  background: var(--btn-bg);
+  color: var(--btn-text);
 
   transition: transform 140ms ease, box-shadow 140ms ease;
 }
 
 .btn:hover{
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--btn-shadow);
 }
 
 .btn.ghost{
@@ -306,4 +329,40 @@ h1::after{
 }
 @media (max-width: 600px){
   .projects{ grid-template-columns: 1fr; }
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    /* DARK THEME TOKENS (your dark mode) */
+    --bg: oklch(17% 2% 250);
+    --card: oklch(22% 2.5% 250);
+    --text: oklch(94% 2% 250);
+    --muted: oklch(78% 2% 250);
+
+    --border: oklch(55% 6% 250 / 35%);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+
+    --surface: oklch(20% 2% 250);
+    --surface2: oklch(20% 2% 250);
+    --btn-bg: oklch(22% 2.5% 250 / 85%);
+    --btn-text: var(--text);
+    --btn-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+    --img-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+
+    --g1: rgba(109,94,252,0.22);
+    --g2: rgba(255,111,174,0.16);
+    --panel-bg: oklch(22% 2.5% 250 / 85%); /* dark */
+    --cover-bg: oklch(20% 2% 250);         /* dark */
+
+    --nav-border-color: oklch(55% 6% 250 / 35%);
+    --nav-link-bg: oklch(22% 2.5% 250 / 85%);
+    --nav-hover-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+
+    --g1: rgba(109,94,252,0.22);
+    --g2: rgba(255,111,174,0.16);
+
+    --article-border: oklch(55% 6% 250 / 35%);
+    --article-bg: oklch(22% 2.5% 250 / 85%);
+    --img-bg: oklch(20% 2% 250);
+  }
 }

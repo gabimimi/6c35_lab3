@@ -26,41 +26,41 @@
 
 <style>
   .readingItem{
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 14px;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: rgba(255,255,255,0.75);
-  }
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel-bg);
+}
 
-  .cover{
-    width: 88px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: #fafafa;
-    flex: 0 0 auto;
-  }
+.cover{
+  width: 88px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--cover-bg);
+  flex: 0 0 auto;
+}
 
-  .title{
-    margin: 0 0 6px;
-    font-size: 1.25rem;
-    font-weight: 800;
-    line-height: 1.2;
-  }
+.title{
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
 
-  .author{
-    margin: 0;
-    color: var(--muted);
-    font-weight: 600;
-  }
+.author{
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
 
-  .desc{
-    margin: 8px 0 0;
-    color: var(--muted);
-    line-height: 1.5;
-  }
+.desc{
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
 </style>

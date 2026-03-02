@@ -10,7 +10,21 @@
     { url: "/contact", title: "Contact" },
     { url: "https://github.com/gabimimi", title: "Github" },
   ];
+
+  let scheme = "light dark";
+
+  // reactive: whenever scheme changes, set it on <html>
+  $: document?.documentElement?.style?.setProperty("color-scheme", scheme);
 </script>
+<label class="color-scheme-switch">
+  Theme:
+  <select bind:value={scheme}>
+    <option value="light dark">Automatic</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+</label>
+
 
 <nav>
   {#each pages as p}
@@ -35,6 +49,9 @@
 
 <style>
     /* Nav */
+
+
+
     nav{
         width: 100%;
         margin: 0 auto;
@@ -46,36 +63,66 @@
         position: fixed;
         top: 0px;
         z-index: 1000;
-        --border-color: oklch(50% 10% 200 / 40%);
-        border-bottom: 2px solid var(--border-color);
+
+        border-bottom: 2px solid var(--nav-border-color);
         padding-bottom: 6px;
+
         background:
-            radial-gradient(900px 500px at 15% 15%, rgba(109,94,252,0.10), transparent 60%),
-            radial-gradient(900px 500px at 85% 20%, rgba(255,111,174,0.10), transparent 55%),
+            radial-gradient(900px 500px at 15% 15%, var(--g1), transparent 60%),
+            radial-gradient(900px 500px at 85% 20%, var(--g2), transparent 55%),
             var(--bg);
     }
 
     nav a{
         text-decoration: none;
-        color:inherit;
+        color: inherit;
         text-align: center;
         font-weight: 600;
         padding: 0.5em;
         border-radius: 999px;
         border: 1px solid var(--border);
-        background: rgba(255,255,255,0.85);
+
+        /* was hardcoded white -> now adapts */
+        background: var(--nav-link-bg);
+
         transition: transform 140ms ease, box-shadow 140ms ease;
         font-size: 1.5rem;
     }
 
     nav a:hover{
         transform: translateY(-2px);
-        box-shadow: 0 10px 22px rgba(17, 24, 39, 0.10);
+        box-shadow: var(--nav-hover-shadow);
     }
 
     nav a.current{
-        border-bottom: 4px solid var(--border-color);
+        border-bottom: 4px solid var(--nav-border-color);
         padding-bottom: 0.1em;
+    }
+
+    .color-scheme-switch{
+        position: fixed;
+        top: 14px;
+        right: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        box-shadow: var(--shadow);
+        font-weight: 700;
+        color: var(--text);
+        z-index: 50;
+    }
+
+    .color-scheme-switch select{
+        font: inherit;
+        color: var(--text);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
     }
 
 </style>
