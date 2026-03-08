@@ -39,10 +39,7 @@
 </section>
 
 <style>
-  .projectNarrative {
-    width: 100%;
-    margin: 28px auto 40px;
-  }
+  
 
   .storyColumn {
     display: grid;
