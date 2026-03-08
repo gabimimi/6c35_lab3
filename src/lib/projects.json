@@ -58,7 +58,7 @@
   {
     "year": 2026,
     "title": "J-PAL (Poverty Action Lab)",
-    "image": "/6c35_lab3/images/J-PAL_Logo.jpg",
+    "image": "/6c35_lab3/images/J-PAL_Logo.png",
     "description": "Built an AI agent to support matchmaking between researchers and initiatives within the J-PAL community. The tool allows natural-language querying and returns relevant information, saving significant time for both the Global Office and the Latin America and Caribbean Office.",
     "story": "This is the direction I feel myself moving toward most clearly now. I am still using computer science, machine learning, and systems design, but the purpose is different: helping research and policy organizations work more effectively on problems like poverty. It feels like a more honest use of my skills, one that connects the technical side of who I am with the social and political questions I no longer want to ignore."
   }
