@@ -11,11 +11,22 @@
   let githubData = null; // This will eventually hold our Github stats
   let loading = true; // This will be true *until* the fetch's promise resolves to a value
   let error = null; // If the API call resulted in an error, it will go into this variable
+  let data = fetch("https://api.github.com/users/gabimimi");
 
-  function retrieveGithubData(){
-    console.log("Page has been mounted!")
-  }
-  onMount(retrieveGithubData);
+
+  onMount(async () => {
+    try {
+      console.log("Page has been mounted!");
+      let response = await fetch("https://api.github.com/users/gabimimi");
+      console.log(response);
+      githubData = await response.json();
+      console.log(githubData);
+    } catch (err) {
+      error = err;
+    }
+    loading = false;
+  });
+
 
 </script>
 
@@ -45,6 +56,13 @@
     </div>
   </section>
 </div>
+{#if loading}
+    <p>Loading...</p>
+{:else if error}
+    <p>Something went wrong: {error.message}</p>
+{:else}
+    The data is {JSON.stringify(githubData)}
+{/if}
 
 <h2>Latest Projects</h2>
 <div class="projects highlights">
