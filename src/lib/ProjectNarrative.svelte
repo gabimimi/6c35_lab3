@@ -3,7 +3,14 @@
   import projects from "$lib/projects.json";
 
   let scrollyProgress = 0;
-  let sorted_projects = projects.sort((a, b) => a.year - b.year);
+  let sorted_projects = [...projects].sort((a, b) => a.year - b.year);
+
+  let progressPerProject = 100 / sorted_projects.length;
+
+  $: activeProjectIdx = Math.min(
+    sorted_projects.length - 1,
+    Math.floor(scrollyProgress / progressPerProject)
+  );
 </script>
 
 <section class="projectNarrative">
@@ -21,7 +28,7 @@
 
     <svelte:fragment slot="viz">
       <div class="vizPanel">
-        <p>{scrollyProgress}</p>
+        <p>{activeProjectIdx}</p>
       </div>
     </svelte:fragment>
   </Scrolly>
