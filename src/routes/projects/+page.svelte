@@ -2,16 +2,29 @@
   <title>Projects</title>
 </svelte:head>
 <script>
-  import projects from "$lib/projects.json";
-  import Project from "$lib/Project.svelte";
+  import projects from '$lib/projects.json';
+  import ProjectNarrative from '$lib/ProjectNarrative.svelte';
+  import Project from '$lib/Project.svelte';
+  let years = projects.map(proj => proj.year);
+  let range = Math.max(...years) - Math.min(...years);
 </script>
 
 
 
-<h1>Projects ({projects.length})</h1>
+<h1>{projects.length} Projects over {range} Years</h1>
 
-<div class="projects homepageContent">
-  {#each projects.slice(0, 10) as p}
+<p class="intro">
+  Scroll down to see a timeline of my projects and how they've contributed to my professional and personal life.
+</p>
+
+<ProjectNarrative />
+
+<p class="outro">
+  Thanks for scrolling through my project story! Feel free to explore all of the projects at your leisure below.
+</p>
+
+<div class="projects">
+  {#each projects as p}
     <Project data={p} />
   {/each}
 </div>
