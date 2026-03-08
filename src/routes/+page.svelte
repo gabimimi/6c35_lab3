@@ -86,7 +86,7 @@
 
 <h2>Latest Projects</h2>
 <div class="projects highlights">
-  {#each projects.slice(0, 3) as p}
+  {#each projects.slice(-3).reverse() as p}
     <Project data={p} />
   {/each}
 </div>

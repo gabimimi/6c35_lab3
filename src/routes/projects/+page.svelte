@@ -11,7 +11,7 @@
 <h1>Projects ({projects.length})</h1>
 
 <div class="projects homepageContent">
-  {#each projects.slice(0, 9) as p}
+  {#each projects.slice(0, 10) as p}
     <Project data={p} />
   {/each}
 </div>

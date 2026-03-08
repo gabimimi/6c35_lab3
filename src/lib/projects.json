@@ -42,18 +42,11 @@
     "story": "This was when writing started to feel like another form of engineering. A good policy brief is not just a summary; it is a way of translating evidence into action. I became increasingly drawn to work that could influence decisions affecting vulnerable communities, because it felt more meaningful than producing analysis that would only benefit the already powerful."
   },
   {
-    "year": 2025,
-    "title": "6.3900 / Data and Modeling Projects",
-    "image": "/6c35_lab3/images/data_project_placeholder.png",
-    "description": "Worked on data-driven computational projects that strengthened my understanding of modeling, prediction, and the relationship between quantitative methods and real-world decisions.",
-    "story": "As my interests shifted, I did not leave computation behind; I started seeing it differently. Data science stopped being just a technical exercise and became a language for understanding people, institutions, and inequality. I began to realize that the same quantitative tools used in industry could also be redirected toward questions of justice, poverty, and public policy."
-  },
-  {
     "year": 2026,
     "title": "6.C35 - Personal Webpage",
     "image": "/6c35_lab3/images/personal_webpage.png",
     "description": "Developed a personal webpage using HTML, CSS, Svelte, and JavaScript. The site continues to evolve with improved usability, design, and interactivity.",
-    "story": "This website became more than just a portfolio. It turned into a place where I could organize the different parts of my identity: programmer, researcher, writer, and someone increasingly interested in using technical tools for public good. In a way, building it felt like building a narrative about who I was becoming."
+    "story": "As my interests shifted, I did not leave computation behind; I started seeing it differently. Data science stopped being just a technical exercise and became a language for understanding people, institutions, and inequality. I began to realize that the same quantitative tools used in industry could also be redirected toward questions of justice, poverty, and public policy. That's why I added this c;ass! (the reason why this website exists)"
   },
   {
     "year": 2026,
