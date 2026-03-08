@@ -4,9 +4,19 @@
 <script>
   import projects from "$lib/projects.json";
   import Project from "$lib/Project.svelte";
-
+  import { onMount } from "svelte";
   import reading from "$lib/reading.json";
   import ReadingItem from "$lib/ReadingItem.svelte";
+
+  let githubData = null; // This will eventually hold our Github stats
+  let loading = true; // This will be true *until* the fetch's promise resolves to a value
+  let error = null; // If the API call resulted in an error, it will go into this variable
+
+  function retrieveGithubData(){
+    console.log("Page has been mounted!")
+  }
+  onMount(retrieveGithubData);
+
 </script>
 
 
