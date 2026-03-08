@@ -13,5 +13,35 @@
     "title": "6.1800 - Computer Systems: Satellite Network Protocol",
     "image": "/6c35_lab3/images/satellite.jpg",
     "description": "Proposed and defined a comprehensive network protocol for satellite-to-satellite communication. Designed system behaviors for edge cases and evaluated performance trade-offs, reliability, and design flaws."
+  },
+  {
+    "title": "6.c35 - Personal webpage",
+    "image": "/6c35_lab3/images/personal_webpage.png",
+    "description": "Developed a Personal Webpage using tools for front and back end: among them HTML, CSS, Svelte, and JavaScript. Currently keeps updating to improve usability and enhance features with the intention of developing a more interactive website."
+  },
+  {
+    "title": "6.c35 - Poverty Analysis",
+    "image": "/6c35_lab3/images/antistatement.png",
+    "description": "Used World Bank Data to analyse ways in which data can be transformed to support on contradict a certain narrative. In the case of the problem, the narrative was that poverty does not exist anymore."
+  },
+  {
+    "title": "14.73 - The Privilege of Health",
+    "image": "/6c35_lab3/images/privilege.png",
+    "description": "Conducted interviews to understand and analyze the Paraguayan public health system and its flaws. Interviews gathered the opinion and experience of a doctor, a journalist, and a deputy all working towrds erradication of corruption."
+  },
+  {
+    "title": "14.73 - Policy Brief",
+    "image": "/6c35_lab3/images/policy.png",
+    "description": "Prepared a policy brief to support research conducted in Lebanon evaluating the impact of empathy-curriculum to support the adption of Syrian refugees. The policy brief details the background, RCT setting, and results, evaluating the possible outcome meaning and giving advice to lawmakers."
+  }, 
+  {
+    "title": "Itau Unibanco",
+    "image": "/6c35_lab3/images/itau.jpg",
+    "description": "Helped tune a classification model for decision making supporting the modeling team at the headquarters of Itau Unibanco. The model was specialized in high stake energy companies clasifying them according to the Internal Risk Ratings used specifically in this bank."
+  },
+  {
+    "title": "J-PAL (Poverty Action Lab)",
+    "image": "/6c35_lab3/images/J-PAL_Logo.jpg",
+    "description": "Coded an AI Agent that supports match making between researchers and initiatives withing the J-PAL community. The model allows natural language querying and returns the necessary information to save hours of work at both the Global Office and Latin America and Caribean Office."
   }
 ]
