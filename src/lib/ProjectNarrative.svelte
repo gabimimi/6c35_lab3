@@ -3,90 +3,84 @@
   import projects from "$lib/projects.json";
 
   let scrollyProgress = 0;
+  let sorted_projects = projects.sort((a, b) => a.year - b.year);
 </script>
 
-<div class="narrativeWrap">
+<section class="projectNarrative">
   <Scrolly bind:progress={scrollyProgress}>
     <div class="storyColumn">
-      {#each projects as project}
-        <article class="storyStep">
-          <p class="year">{project.year}</p>
-          <h2>{project.title}</h2>
-          <p>{project.story}</p>
-        </article>
+      {#each sorted_projects as project}
+        <section class="storyStep">
+          <div class="storyCard">
+            <h3>{project.title}</h3>
+            <p>{project.story}</p>
+          </div>
+        </section>
       {/each}
     </div>
 
     <svelte:fragment slot="viz">
-      <div class="vizColumn">
-        <img src={projects[0].image} alt={projects[0].title} />
+      <div class="vizPanel">
+        <p>{scrollyProgress}</p>
       </div>
     </svelte:fragment>
   </Scrolly>
-</div>
+</section>
 
 <style>
-  .narrativeWrap{
+  .projectNarrative{
     width: min(1200px, 100%);
     margin: 28px auto 40px;
   }
 
   .storyColumn{
     display: grid;
-    gap: 36px;
+    gap: 24px;
   }
 
   .storyStep{
     min-height: 70vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 24px;
+    align-items: center;
+  }
+
+  .storyCard{
+    width: 100%;
     background: var(--article-bg);
     border: 1px solid var(--article-border);
     border-radius: 22px;
     box-shadow: var(--shadow);
+    padding: 24px;
   }
 
-  .year{
-    margin: 0 0 10px;
-    color: var(--accent-color);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-size: 0.92rem;
-  }
-
-  h2{
+  .storyCard h3{
     margin: 0 0 12px;
-    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     color: var(--text);
   }
 
-  .storyStep p:last-child{
+  .storyCard p{
     margin: 0;
     color: var(--muted);
     font-size: 1.08rem;
     line-height: 1.75;
   }
 
-  .vizColumn{
-    width: min(520px, 100%);
+  .vizPanel{
+    width: min(420px, 100%);
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 22px;
     box-shadow: var(--shadow);
-    padding: 18px;
-  }
-
-  .vizColumn img{
-    width: 100%;
-    display: block;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    box-shadow: var(--img-shadow);
+    padding: 24px;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    color: var(--accent-color);
   }
 </style>
