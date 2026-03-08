@@ -56,23 +56,31 @@
     </div>
   </section>
 </div>
-<div>
+<div class="githubStatsWrap">
   {#if loading}
-      <p>Loading...</p>
+    <p class="githubMessage">Loading...</p>
   {:else if error}
-      <p>Something went wrong: {error.message}</p>
+    <p class="githubMessage githubError">Something went wrong: {error.message}</p>
   {:else}
-      <section>
-        <h2>My GitHub Stats</h2>
-        <dl>
-            <dt>Followers</dt>
-            <dd>{githubData.followers}</dd>
-            <dt>Following</dt>
-            <dd>{githubData.following}</dd>
-            <dt>Public Repositories</dt>
-            <dd>{githubData.public_repos}</dd>
-        </dl>
-      </section>
+    <section class="githubStatsCard">
+      <h2>My GitHub Stats</h2>
+      <dl class="githubStatsList">
+        <div class="statItem">
+          <dt>Followers</dt>
+          <dd>{githubData.followers}</dd>
+        </div>
+
+        <div class="statItem">
+          <dt>Following</dt>
+          <dd>{githubData.following}</dd>
+        </div>
+
+        <div class="statItem">
+          <dt>Public Repositories</dt>
+          <dd>{githubData.public_repos}</dd>
+        </div>
+      </dl>
+    </section>
   {/if}
 </div>
 
