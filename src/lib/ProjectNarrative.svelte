@@ -28,7 +28,11 @@
 
     <svelte:fragment slot="viz">
       <div class="vizPanel">
-        <p>{activeProjectIdx}</p>
+        <h3>{sorted_projects[activeProjectIdx].year}</h3>
+        <img
+          src={sorted_projects[activeProjectIdx].image}
+          alt={sorted_projects[activeProjectIdx].title}
+        />
       </div>
     </svelte:fragment>
   </Scrolly>
@@ -76,18 +80,28 @@
   }
 
   .vizPanel{
-    width: min(420px, 100%);
-    min-height: 260px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: min(460px, 100%);
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 22px;
     box-shadow: var(--shadow);
-    padding: 24px;
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    padding: 20px;
+  }
+
+  .vizPanel h3{
+    margin: 0 0 14px;
+    font-size: 1.2rem;
     font-weight: 800;
     color: var(--accent-color);
+    letter-spacing: -0.02em;
+  }
+
+  .vizPanel img{
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    box-shadow: var(--img-shadow);
   }
 </style>
