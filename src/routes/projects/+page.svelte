@@ -10,28 +10,22 @@
 </script>
 
 
-<section class=help>
-  <h1>{projects.length} Projects over {range} Years</h1>
 
-  <p class="intro">
-    Scroll down to see a timeline of my projects and how they've contributed to my professional and personal life.
-  </p>
+<h1>{projects.length} Projects over {range} Years</h1>
 
-  <ProjectNarrative />
+<p class="intro">
+  Scroll down to see a timeline of my projects and how they've contributed to my professional and personal life.
+</p>
 
-  <p class="outro">
-    Thanks for scrolling through my project story! Feel free to explore all of the projects at your leisure below.
-  </p>
-</section>
+<ProjectNarrative />
+
+<p class="outro">
+  Thanks for scrolling through my project story! Feel free to explore all of the projects at your leisure below.
+</p>
+
 <div class="projects">
   {#each projects as p}
     <Project data={p} />
   {/each}
 </div>
 
-<style>
-  .help {
-    width: 100%;
-    margin: 28px auto 40px;
-  }
-</style>
