@@ -11,7 +11,7 @@
 
 
 
-<h1>{projects.length} Projects over {range} Years</h1>
+<h1 class="projects-title">{projects.length} Projects Across {range + 1} Years</h1>
 
 <p class="intro">
   Scroll down to see a timeline of my projects and how they've contributed to my professional and personal life.
@@ -29,3 +29,13 @@
   {/each}
 </div>
 
+<style>
+  .projects-title{
+    position: sticky;
+    top: 88px;
+    z-index: 40;
+    background: var(--bg);
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+</style>

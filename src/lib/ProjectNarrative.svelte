@@ -27,12 +27,14 @@
     </div>
 
     <svelte:fragment slot="viz">
-      <div class="project-detail">
-        <h3>{sorted_projects[activeProjectIdx].year}</h3>
-        <img
-          src={sorted_projects[activeProjectIdx].image}
-          alt={sorted_projects[activeProjectIdx].title}
-        />
+      <div class="viz-shell">
+        <div class="project-detail">
+          <h3>{sorted_projects[activeProjectIdx].year}</h3>
+          <img
+            src={sorted_projects[activeProjectIdx].image}
+            alt={sorted_projects[activeProjectIdx].title}
+          />
+        </div>
       </div>
     </svelte:fragment>
   </Scrolly>
@@ -42,6 +44,7 @@
   .projectNarrative {
     width: 100%;
     margin: 28px auto 40px;
+    padding-top: 24px;
   }
 
   .storyColumn {
@@ -59,7 +62,6 @@
   .step-content {
     width: 100%;
     padding: 1.5rem 2rem;
-    border-left: 4px solid var(--accent-color);
     background: var(--article-bg);
     border: 1px solid var(--article-border);
     border-left: 4px solid var(--accent-color);
@@ -80,6 +82,10 @@
     color: var(--muted);
     font-size: 1.08rem;
     line-height: 1.75;
+  }
+
+  .viz-shell{
+    padding-top: 88px;
   }
 
   .project-detail {
@@ -118,6 +124,10 @@
       left: 0;
       transform: none;
       margin: 0 auto;
+    }
+
+    .viz-shell{
+      padding-top: 0;
     }
   }
 </style>
