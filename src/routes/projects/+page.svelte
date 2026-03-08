@@ -28,14 +28,3 @@
     <Project data={p} />
   {/each}
 </div>
-
-<style>
-  .projects-title{
-    position: sticky;
-    top: 88px;
-    z-index: 40;
-    background: var(--bg);
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-</style>
