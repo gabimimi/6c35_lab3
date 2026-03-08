@@ -1,80 +1,92 @@
 <script>
-  import projects from '$lib/projects.json';
+  import Scrolly from "svelte-scrolly";
+  import projects from "$lib/projects.json";
+
+  let scrollyProgress = 0;
 </script>
 
-<section class="projectNarrative">
-  {#each projects as project}
-    <article class="narrativeCard">
-      <div class="narrativeText">
-        <p class="year">{project.year}</p>
-        <h2>{project.title}</h2>
-        <p>{project.story}</p>
-      </div>
+<div class="narrativeWrap">
+  <Scrolly bind:progress={scrollyProgress}>
+    <div class="storyColumn">
+      {#each projects as project}
+        <article class="storyStep">
+          <p class="year">{project.year}</p>
+          <h2>{project.title}</h2>
+          <p>{project.story}</p>
+        </article>
+      {/each}
+    </div>
 
-      <div class="narrativeVisual">
-        <img src={project.image} alt={project.title} />
+    <svelte:fragment slot="viz">
+      <div class="vizColumn">
+        <img src={projects[0].image} alt={projects[0].title} />
       </div>
-    </article>
-  {/each}
-</section>
+    </svelte:fragment>
+  </Scrolly>
+</div>
 
 <style>
-  .projectNarrative{
+  .narrativeWrap{
     width: min(1200px, 100%);
     margin: 28px auto 40px;
-    display: grid;
-    gap: 22px;
   }
 
-  .narrativeCard{
+  .storyColumn{
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 20px;
-    align-items: center;
+    gap: 36px;
+  }
+
+  .storyStep{
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px;
+    background: var(--article-bg);
+    border: 1px solid var(--article-border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+  }
+
+  .year{
+    margin: 0 0 10px;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.92rem;
+  }
+
+  h2{
+    margin: 0 0 12px;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    color: var(--text);
+  }
+
+  .storyStep p:last-child{
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.08rem;
+    line-height: 1.75;
+  }
+
+  .vizColumn{
+    width: min(520px, 100%);
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 22px;
     box-shadow: var(--shadow);
-    padding: 24px;
+    padding: 18px;
   }
 
-  .narrativeText h2{
-    margin: 0 0 10px;
-    font-size: 1.5rem;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--text);
-  }
-
-  .narrativeText p{
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.08rem;
-    line-height: 1.7;
-  }
-
-  .year{
-    margin-bottom: 8px !important;
-    font-size: 0.95rem !important;
-    font-weight: 700;
-    color: var(--accent-color) !important;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .narrativeVisual img{
+  .vizColumn img{
     width: 100%;
-    height: auto;
     display: block;
     border-radius: 18px;
     border: 1px solid var(--border);
     background: var(--surface2);
     box-shadow: var(--img-shadow);
-  }
-
-  @media (max-width: 900px){
-    .narrativeCard{
-      grid-template-columns: 1fr;
-    }
   }
 </style>
