@@ -56,13 +56,25 @@
     </div>
   </section>
 </div>
-{#if loading}
-    <p>Loading...</p>
-{:else if error}
-    <p>Something went wrong: {error.message}</p>
-{:else}
-    The data is {JSON.stringify(githubData)}
-{/if}
+<div>
+  {#if loading}
+      <p>Loading...</p>
+  {:else if error}
+      <p>Something went wrong: {error.message}</p>
+  {:else}
+      <section>
+        <h2>My GitHub Stats</h2>
+        <dl>
+            <dt>Followers</dt>
+            <dd>{githubData.followers}</dd>
+            <dt>Following</dt>
+            <dd>{githubData.following}</dd>
+            <dt>Public Repositories</dt>
+            <dd>{githubData.public_repos}</dd>
+        </dl>
+      </section>
+  {/if}
+</div>
 
 <h2>Latest Projects</h2>
 <div class="projects highlights">
