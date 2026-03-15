@@ -14,7 +14,7 @@
   let percentages = [];
   let totalLines = 0;
   onMount(async () => {
-    rawData = await d3.json('/lab6_example.json');
+    rawData = await d3.json('/static/lab6_example.json');
 
     totalLines = d3.sum(rawData, d => d.lines);
 
