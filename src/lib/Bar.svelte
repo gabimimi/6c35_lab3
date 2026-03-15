@@ -29,61 +29,116 @@
     .nice()
     .range([innerHeight, 0]);
 
+  $: colorScale = d3.scaleOrdinal()
+    .domain(data.map(d => d.label))
+    .range([
+      'var(--accent-color)',
+      '#ff6fae',
+      '#8b7cff',
+      '#c084fc',
+      '#5ec8ff'
+    ]);
+
   $: if (xAxis && yAxis) {
     d3.select(xAxis).call(d3.axisBottom(xScale).tickSizeOuter(0));
     d3.select(yAxis).call(d3.axisLeft(yScale).ticks(5).tickSizeOuter(0));
   }
 </script>
 
-<svg class="bar-chart" viewBox="0 0 {width} {height}">
-  <g
-    class="x-axis"
-    transform="translate({margin.left}, {margin.top + innerHeight})"
-    bind:this={xAxis}
-  ></g>
+<div class="container">
+  <svg class="bar-chart" viewBox="0 0 {width} {height}">
+    <g
+      class="x-axis"
+      transform="translate({margin.left}, {margin.top + innerHeight})"
+      bind:this={xAxis}
+    ></g>
 
-  <g
-    class="y-axis"
-    transform="translate({margin.left}, {margin.top})"
-    bind:this={yAxis}
-  ></g>
+    <g
+      class="y-axis"
+      transform="translate({margin.left}, {margin.top})"
+      bind:this={yAxis}
+    ></g>
 
-  <g transform="translate({margin.left}, {margin.top})">
-    {#each data as d, i}
-      <rect
-        class="bar bar-{i % 5}"
-        x={xScale(d.label)}
-        y={yScale(d.value)}
-        width={xScale.bandwidth()}
-        height={innerHeight - yScale(d.value)}
-        rx="10"
-      />
+    <g transform="translate({margin.left}, {margin.top})">
+      {#each data as d}
+        <rect
+          x={xScale(d.label)}
+          y={yScale(d.value)}
+          width={xScale.bandwidth()}
+          height={innerHeight - yScale(d.value)}
+          fill={colorScale(d.label)}
+          rx="10"
+        />
+      {/each}
+    </g>
+  </svg>
+
+  <ul class="legend">
+    {#each data as d}
+      <li style="--color: {colorScale(d.label)}">
+        <span class="swatch"></span>
+        {d.label} <em>({d.value})</em>
+      </li>
     {/each}
-  </g>
-</svg>
+  </ul>
+</div>
 
 <style>
+  .container {
+    width: min(980px, 100%);
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+  }
+
   .bar-chart {
+    flex: 2;
     max-width: 100%;
     height: auto;
     overflow: visible;
     display: block;
   }
 
-  .bar {
-    transition: opacity 160ms ease, transform 160ms ease;
-    transform-origin: center bottom;
+  .legend {
+    flex: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    align-content: start;
   }
 
-  .bar:hover {
-    opacity: 0.9;
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+    font-size: 0.98rem;
+    background: var(--article-bg);
+    border: 1px solid var(--article-border);
+    border-radius: 14px;
+    padding: 10px 12px;
+    backdrop-filter: blur(8px);
   }
 
-  .bar-0 { fill: var(--accent-color); }
-  .bar-1 { fill: #ff6fae; }
-  .bar-2 { fill: #8b7cff; }
-  .bar-3 { fill: #c084fc; }
-  .bar-4 { fill: #5ec8ff; }
+  .legend em {
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: var(--color);
+    flex: 0 0 12px;
+  }
 
   .bar-chart :global(.domain),
   .bar-chart :global(.tick line) {
@@ -95,7 +150,20 @@
     font-size: 12px;
   }
 
-  .bar-chart :global(.y-axis .tick line) {
-    stroke-opacity: 0.35;
+  @media (max-width: 800px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .legend {
+      width: 100%;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 520px) {
+    .legend {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
