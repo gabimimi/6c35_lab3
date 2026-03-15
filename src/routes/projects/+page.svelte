@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>Projects</title>
+</svelte:head>
+
 <script>
   import projects from '$lib/projects.json';
   import ProjectNarrative from '$lib/ProjectNarrative.svelte';
@@ -51,10 +55,17 @@
   });
 </script>
 
-<section>
-  <h2>Debug</h2>
-  <p>{errorMessage}</p>
-</section>
+<h1 class="projects-title">{projects.length} Projects Across {range + 1} Years</h1>
+
+<p class="intro">
+  Scroll down to see a timeline of my projects and how they've contributed to my professional and personal life.
+</p>
+
+<ProjectNarrative />
+
+<p class="outro">
+  Thanks for scrolling through my project story! Feel free to explore all of the projects at your leisure below.
+</p>
 
 <section>
   <h2>Raw data</h2>
@@ -70,3 +81,9 @@
   <h2>Percentages</h2>
   <pre>{JSON.stringify(percentages, null, 2)}</pre>
 </section>
+
+<div class="projects">
+  {#each projects as p}
+    <Project data={p} />
+  {/each}
+</div>
