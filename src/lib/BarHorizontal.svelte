@@ -41,13 +41,13 @@
 
   $: if (xAxis && yAxis) {
     d3.select(xAxis).call(
-      d3.axisBottom(xScale)
-        .tickFormat(d => Number.isInteger(d) ? d : '')
-        .tickValues(d3.range(0, (d3.max(data, d => d.value) || 0) + 1))
+        d3.axisBottom(xScale)
+        .ticks(6)
+        .tickFormat(d3.format('~s'))
     );
 
     d3.select(yAxis).call(d3.axisLeft(yScale));
-  }
+    }
 </script>
 
 <div class="container">
@@ -159,7 +159,7 @@
 
   .bar-chart {
     flex: 2;
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     overflow: visible;
     display: block;

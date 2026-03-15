@@ -1,15 +1,18 @@
 <script>
-  import { base } from '$app/paths';
+  import { asset } from '$app/paths';
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import BarHorizontal from '$lib/BarHorizontal.svelte';
 
   let locData = [];
   let loadError = '';
+  let triedUrl = '';
 
   onMount(async () => {
     try {
-      locData = await d3.csv(`${base}/loc.csv`, row => ({
+      triedUrl = asset('/loc.csv');
+
+      locData = await d3.csv(triedUrl, row => ({
         ...row,
         line: Number(row.line),
         length: Number(row.length),
@@ -19,7 +22,7 @@
       console.log('Loaded locData:', locData);
     } catch (err) {
       console.error('Failed to load loc.csv:', err);
-      loadError = 'Failed to load loc.csv';
+      loadError = `Failed to load CSV from ${triedUrl}`;
     }
   });
 
@@ -47,15 +50,11 @@
 
 {#if loadError}
   <p class="error">{loadError}</p>
+  <p class="debug-url">Tried URL: {triedUrl}</p>
 {:else if locData.length === 0}
   <p class="loading">Loading code statistics...</p>
 {:else}
   <BarHorizontal data={languageData} title="Lines of Code by Language" />
-
-  <section class="debug">
-    <h2>Wrangled language data</h2>
-    <pre>{JSON.stringify(languageData, null, 2)}</pre>
-  </section>
 {/if}
 
 <style>
@@ -87,7 +86,8 @@
 
   .intro,
   .loading,
-  .error {
+  .error,
+  .debug-url {
     width: min(980px, 100%);
     margin: 0 auto 20px;
     text-align: center;
@@ -101,25 +101,8 @@
     font-weight: 600;
   }
 
-  .debug {
-    width: min(980px, 100%);
-    margin: 0 auto 24px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    box-shadow: var(--shadow);
-    padding: 24px;
-  }
-
-  .debug h2 {
-    margin-top: 0;
-    color: var(--text);
-  }
-
-  .debug pre {
-    margin: 0;
-    color: var(--muted);
-    white-space: pre-wrap;
-    word-break: break-word;
+  .debug-url {
+    font-family: monospace;
+    word-break: break-all;
   }
 </style>
