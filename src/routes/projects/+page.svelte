@@ -6,10 +6,9 @@
   import projects from '$lib/projects.json';
   import ProjectNarrative from '$lib/ProjectNarrative.svelte';
   import Project from '$lib/Project.svelte';
-  import { onMount } from 'svelte';
-  import { base } from '$app/paths';
-  import * as d3 from 'd3';
   import Bar from '$lib/Bar.svelte';
+  import { onMount } from 'svelte';
+  import * as d3 from 'd3';
 
   let years = projects.map(proj => proj.year);
   let range = Math.max(...years) - Math.min(...years);
@@ -18,41 +17,26 @@
   let wrangled = [];
   let percentages = [];
   let totalLines = 0;
-  let errorMessage = '';
+
+  $: barData = d3.rollups(projects, v => v.length, d => d.year)
+    .map(([year, count]) => ({ label: String(year), value: count }));
 
   onMount(async () => {
-    try {
-      const url = `${base}/lab6_example.json`;
-      console.log('fetching from:', url);
+    rawData = await d3.json('/lab6_example.json');
 
-      rawData = await d3.json(url);
-      console.log('rawData:', rawData);
+    totalLines = d3.sum(rawData, d => d.lines);
 
-      if (!rawData) {
-        errorMessage = 'JSON loaded as empty/undefined';
-        return;
-      }
+    wrangled = d3.rollups(
+      rawData,
+      v => d3.sum(v, d => d.lines),
+      d => d.language
+    );
 
-      totalLines = d3.sum(rawData, d => d.lines);
-
-      wrangled = d3.rollups(
-        rawData,
-        v => d3.sum(v, d => d.lines),
-        d => d.language
-      );
-
-      percentages = d3.rollups(
-        rawData,
-        v => (d3.sum(v, d => d.lines) / totalLines) * 100,
-        d => d.language
-      );
-
-      console.log('wrangled:', wrangled);
-      console.log('percentages:', percentages);
-    } catch (err) {
-      console.error('Failed to load JSON:', err);
-      errorMessage = String(err);
-    }
+    percentages = d3.rollups(
+      rawData,
+      v => (d3.sum(v, d => d.lines) / totalLines) * 100,
+      d => d.language
+    );
   });
 </script>
 
@@ -83,7 +67,7 @@
   <pre>{JSON.stringify(percentages, null, 2)}</pre>
 </section>
 
-<Bar/>
+<Bar data={barData} />
 
 <div class="projects">
   {#each projects as p}

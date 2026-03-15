@@ -1,18 +1,12 @@
 <script>
   import * as d3 from 'd3';
 
+  export let data = [];
+
   let width = 400;
   let height = 300;
 
-  let data = [
-    { label: 'A', value: 10 },
-    { label: 'B', value: 20 },
-    { label: 'C', value: 15 },
-    { label: 'D', value: 8 },
-    { label: 'E', value: 25 }
-  ];
-
-  let margin = { top: 20, right: 20, bottom: 30, left: 60 };
+  let margin = { top: 40, right: 20, bottom: 50, left: 70 };
   let innerWidth = width - margin.left - margin.right;
   let innerHeight = height - margin.top - margin.bottom;
 
@@ -40,13 +34,26 @@
     ]);
 
   $: if (xAxis && yAxis) {
-    d3.select(xAxis).call(d3.axisBottom(xScale).tickSizeOuter(0));
-    d3.select(yAxis).call(d3.axisLeft(yScale).ticks(5).tickSizeOuter(0));
+    d3.select(xAxis).call(d3.axisBottom(xScale));
+
+    d3.select(yAxis).call(
+      d3.axisLeft(yScale)
+        .tickFormat(d => Number.isInteger(d) ? d : '')
+        .tickValues(d3.range(0, (d3.max(data, d => d.value) || 0) + 1))
+    );
   }
 </script>
 
 <div class="container">
   <svg class="bar-chart" viewBox="0 0 {width} {height}">
+    <text
+      x={margin.left + innerWidth / 2}
+      y={margin.top / 2}
+      text-anchor="middle"
+      class="chart-title">
+      Projects per Year
+    </text>
+
     <g
       class="x-axis"
       transform="translate({margin.left}, {margin.top + innerHeight})"
@@ -70,6 +77,23 @@
           rx="10"
         />
       {/each}
+
+      <text
+        x={innerWidth / 2}
+        y={innerHeight + margin.bottom - 5}
+        text-anchor="middle"
+        class="axis-label">
+        Year
+      </text>
+
+      <text
+        x={-(innerHeight / 2)}
+        y={-margin.left + 20}
+        text-anchor="middle"
+        transform="rotate(-90)"
+        class="axis-label">
+        Number of Projects
+      </text>
     </g>
   </svg>
 
@@ -94,11 +118,12 @@
     border-radius: 22px;
     box-shadow: var(--shadow);
     padding: 24px;
+    margin-bottom: 24px;
   }
 
   .bar-chart {
     flex: 2;
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
     overflow: visible;
     display: block;
