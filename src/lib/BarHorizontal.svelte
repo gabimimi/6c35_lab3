@@ -2,26 +2,27 @@
   import * as d3 from 'd3';
 
   export let data = [];
+  export let title = 'Lines of Code per Language';
 
-  let width = 520;
-  let height = 340;
+  let width = 700;
+  let height = 380;
 
-  let margin = { top: 40, right: 150, bottom: 80, left: 70 };
+  let margin = { top: 45, right: 170, bottom: 55, left: 90 };
   let innerWidth = width - margin.left - margin.right;
   let innerHeight = height - margin.top - margin.bottom;
 
   let xAxis;
   let yAxis;
 
-  $: xScale = d3.scaleBand()
-    .domain(data.map(d => d.label))
-    .range([0, innerWidth])
-    .padding(0.2);
-
-  $: yScale = d3.scaleLinear()
+  $: xScale = d3.scaleLinear()
     .domain([0, d3.max(data, d => d.value) || 1])
     .nice()
-    .range([innerHeight, 0]);
+    .range([0, innerWidth]);
+
+  $: yScale = d3.scaleBand()
+    .domain(data.map(d => d.label))
+    .range([0, innerHeight])
+    .padding(0.2);
 
   $: colorScale = d3.scaleOrdinal()
     .domain(data.map(d => d.label))
@@ -30,19 +31,22 @@
       '#ff6fae',
       '#8b7cff',
       '#c084fc',
-      '#5ec8ff'
+      '#5ec8ff',
+      '#7dd3fc',
+      '#a78bfa',
+      '#f9a8d4'
     ]);
 
-  $: maxBar = d3.least(data, d => d.value);
+  $: maxBar = d3.greatest(data, d => d.value);
 
   $: if (xAxis && yAxis) {
-    d3.select(xAxis).call(d3.axisBottom(xScale));
-
-    d3.select(yAxis).call(
-      d3.axisLeft(yScale)
+    d3.select(xAxis).call(
+      d3.axisBottom(xScale)
         .tickFormat(d => Number.isInteger(d) ? d : '')
         .tickValues(d3.range(0, (d3.max(data, d => d.value) || 0) + 1))
     );
+
+    d3.select(yAxis).call(d3.axisLeft(yScale));
   }
 </script>
 
@@ -53,7 +57,7 @@
       y={margin.top / 2}
       text-anchor="middle"
       class="chart-title">
-      Projects per Year
+      {title}
     </text>
 
     <g
@@ -71,10 +75,10 @@
     <g transform="translate({margin.left}, {margin.top})">
       {#each data as d}
         <rect
-          x={xScale(d.label)}
-          y={yScale(d.value)}
-          width={xScale.bandwidth()}
-          height={innerHeight - yScale(d.value)}
+          x={0}
+          y={yScale(d.label)}
+          width={xScale(d.value)}
+          height={yScale.bandwidth()}
           fill={colorScale(d.label)}
           rx="10"
         />
@@ -82,10 +86,10 @@
 
       {#if maxBar}
         <rect
-          x={xScale(maxBar.label)}
-          y={yScale(maxBar.value)}
-          width={xScale.bandwidth()}
-          height={innerHeight - yScale(maxBar.value)}
+          x={0}
+          y={yScale(maxBar.label)}
+          width={xScale(maxBar.value)}
+          height={yScale.bandwidth()}
           fill="none"
           stroke="currentColor"
           stroke-width="2"
@@ -93,29 +97,29 @@
         />
 
         <line
-          x1={xScale(maxBar.label) + xScale.bandwidth()}
-          y1={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
-          x2={xScale(maxBar.label) + xScale.bandwidth() + 30}
-          y2={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
+          x1={xScale(maxBar.value)}
+          y1={yScale(maxBar.label) + yScale.bandwidth() / 2}
+          x2={xScale(maxBar.value) + 30}
+          y2={yScale(maxBar.label) + yScale.bandwidth() / 2}
           stroke="currentColor"
           stroke-width="1.5"
         />
 
         <text
-          x={xScale(maxBar.label) + xScale.bandwidth() + 35}
-          y={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
+          x={xScale(maxBar.value) + 35}
+          y={yScale(maxBar.label) + yScale.bandwidth() / 2}
           dominant-baseline="middle"
           class="annotation">
-          Year with least projects
+          Most lines of code
         </text>
       {/if}
 
       <text
         x={innerWidth / 2}
-        y={innerHeight + margin.bottom - 15}
+        y={innerHeight + margin.bottom - 10}
         text-anchor="middle"
         class="axis-label">
-        Year
+        Number of Lines
       </text>
 
       <text
@@ -124,7 +128,7 @@
         text-anchor="middle"
         transform="rotate(-90)"
         class="axis-label">
-        Number of Projects
+        Language
       </text>
     </g>
   </svg>
@@ -141,7 +145,7 @@
 
 <style>
   .container {
-    width: min(980px, 100%);
+    width: min(1100px, 100%);
     display: flex;
     align-items: flex-start;
     gap: 24px;
@@ -150,12 +154,12 @@
     border-radius: 22px;
     box-shadow: var(--shadow);
     padding: 24px;
-    margin-bottom: 24px;
+    margin: 24px auto;
   }
 
   .bar-chart {
     flex: 2;
-    max-width: 80%;
+    max-width: 100%;
     height: auto;
     overflow: visible;
     display: block;
@@ -225,13 +229,9 @@
     font-size: 12px;
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 900px) {
     .container {
       flex-direction: column;
-    }
-
-    .bar-chart {
-      max-width: 100%;
     }
 
     .legend {

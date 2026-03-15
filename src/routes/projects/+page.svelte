@@ -52,21 +52,6 @@
   Thanks for scrolling through my project story! Feel free to explore all of the projects at your leisure below.
 </p>
 
-<section>
-  <h2>Raw data</h2>
-  <pre>{JSON.stringify(rawData, null, 2)}</pre>
-</section>
-
-<section>
-  <h2>Data wrangling result</h2>
-  <pre>{JSON.stringify(wrangled, null, 2)}</pre>
-</section>
-
-<section>
-  <h2>Percentages</h2>
-  <pre>{JSON.stringify(percentages, null, 2)}</pre>
-</section>
-
 <Bar data={barData} />
 
 <div class="projects">
