@@ -127,6 +127,18 @@
     height: auto;
     overflow: visible;
     display: block;
+    color: var(--text);
+  }
+
+  .chart-title {
+    font-size: 1em;
+    font-weight: 700;
+    fill: currentColor;
+  }
+
+  .axis-label {
+    font-size: 0.8em;
+    fill: currentColor;
   }
 
   .legend {
