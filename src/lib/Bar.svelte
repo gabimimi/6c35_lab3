@@ -3,10 +3,10 @@
 
   export let data = [];
 
-  let width = 400;
-  let height = 300;
+  let width = 520;
+  let height = 340;
 
-  let margin = { top: 40, right: 20, bottom: 50, left: 70 };
+  let margin = { top: 40, right: 150, bottom: 80, left: 70 };
   let innerWidth = width - margin.left - margin.right;
   let innerHeight = height - margin.top - margin.bottom;
 
@@ -32,6 +32,8 @@
       '#c084fc',
       '#5ec8ff'
     ]);
+
+  $: maxBar = d3.greatest(data, d => d.value);
 
   $: if (xAxis && yAxis) {
     d3.select(xAxis).call(d3.axisBottom(xScale));
@@ -78,9 +80,39 @@
         />
       {/each}
 
+      {#if maxBar}
+        <rect
+          x={xScale(maxBar.label)}
+          y={yScale(maxBar.value)}
+          width={xScale.bandwidth()}
+          height={innerHeight - yScale(maxBar.value)}
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          rx="10"
+        />
+
+        <line
+          x1={xScale(maxBar.label) + xScale.bandwidth()}
+          y1={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
+          x2={xScale(maxBar.label) + xScale.bandwidth() + 30}
+          y2={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
+          stroke="currentColor"
+          stroke-width="1.5"
+        />
+
+        <text
+          x={xScale(maxBar.label) + xScale.bandwidth() + 35}
+          y={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
+          dominant-baseline="middle"
+          class="annotation">
+          Year with most projects
+        </text>
+      {/if}
+
       <text
         x={innerWidth / 2}
-        y={innerHeight + margin.bottom - 5}
+        y={innerHeight + margin.bottom - 15}
         text-anchor="middle"
         class="axis-label">
         Year
@@ -130,17 +162,6 @@
     color: var(--text);
   }
 
-  .chart-title {
-    font-size: 1em;
-    font-weight: 700;
-    fill: currentColor;
-  }
-
-  .axis-label {
-    font-size: 0.8em;
-    fill: currentColor;
-  }
-
   .legend {
     flex: 1;
     list-style: none;
@@ -177,6 +198,23 @@
     flex: 0 0 12px;
   }
 
+  .chart-title {
+    font-size: 1em;
+    font-weight: 700;
+    fill: currentColor;
+  }
+
+  .axis-label {
+    font-size: 0.8em;
+    fill: currentColor;
+  }
+
+  .annotation {
+    font-size: 0.72em;
+    fill: currentColor;
+    font-style: italic;
+  }
+
   .bar-chart :global(.domain),
   .bar-chart :global(.tick line) {
     stroke: var(--border);
@@ -190,6 +228,10 @@
   @media (max-width: 800px) {
     .container {
       flex-direction: column;
+    }
+
+    .bar-chart {
+      max-width: 100%;
     }
 
     .legend {
