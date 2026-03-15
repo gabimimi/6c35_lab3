@@ -9,6 +9,7 @@
   import { onMount } from 'svelte';
   import { base } from '$app/paths';
   import * as d3 from 'd3';
+  import Bar from '$lib/Bar.svelte';
 
   let years = projects.map(proj => proj.year);
   let range = Math.max(...years) - Math.min(...years);
@@ -82,8 +83,11 @@
   <pre>{JSON.stringify(percentages, null, 2)}</pre>
 </section>
 
+<Bar/>
+
 <div class="projects">
   {#each projects as p}
     <Project data={p} />
   {/each}
 </div>
+
