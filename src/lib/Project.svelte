@@ -8,7 +8,7 @@
   {#if data.image}
     <img src={data.image} alt={data.title} />
   {/if}
-
+  <p>{data.year}</p>
   <p>{data.description}</p>
 </article>
 
