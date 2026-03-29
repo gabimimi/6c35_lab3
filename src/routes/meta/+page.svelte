@@ -33,10 +33,17 @@
   let commits = [];
 
   let hoveredIndex = -1;
+  /** Viewport coordinates for tooltip placement (PointerEvent/MouseEvent clientX/Y). */
+  let cursor = { x: 0, y: 0 };
   /** Last commit shown in the tooltip; kept during fade-out so content doesn’t flash to “—”. */
   let tooltipCommit = null;
 
-  function onDotEnter(index) {
+  /**
+   * @param {number} index
+   * @param {MouseEvent} evt
+   */
+  function onDotEnter(index, evt) {
+    cursor = { x: evt.clientX, y: evt.clientY };
     hoveredIndex = index;
     if (index >= 0 && index < commits.length) {
       tooltipCommit = commits[index];
@@ -179,7 +186,10 @@
             r={rScale(item.totalLines)}
             fill="var(--accent-color)"
             fill-opacity="0.55"
-            on:mouseenter={() => onDotEnter(index)}
+            on:mouseenter={(e) => onDotEnter(index, e)}
+            on:mousemove={(e) => {
+              cursor = { x: e.clientX, y: e.clientY };
+            }}
             on:mouseleave={onDotLeave}
           />
         {/each}
@@ -187,7 +197,11 @@
     </g>
   </svg>
 
-  <dl class="info tooltip" hidden={hoveredIndex === -1}>
+  <dl
+    class="info tooltip"
+    hidden={hoveredIndex === -1}
+    style:--cursor-x="{cursor.x}px"
+    style:--cursor-y="{cursor.y}px">
     <dt>Commit</dt>
     <dd>
       {#if tooltipCommit?.url}
@@ -346,12 +360,11 @@
   }
 
   .tooltip {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    left: auto;
-    z-index: 2;
-    max-width: min(340px, calc(100% - 2rem));
+    position: fixed;
+    top: calc(var(--cursor-y, 0px) + 12px);
+    left: calc(var(--cursor-x, 0px) + 12px);
+    z-index: 4000;
+    max-width: min(340px, calc(100vw - 24px));
     padding: 14px 18px;
     background: var(--panel-bg);
     border: 1px solid var(--border);
