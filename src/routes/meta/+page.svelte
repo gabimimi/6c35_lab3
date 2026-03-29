@@ -5,11 +5,19 @@
   import * as d3 from 'd3';
   import BarHorizontal from '$lib/BarHorizontal.svelte';
 
-  // Match BarHorizontal chart frame
   let width = 700;
   let height = 380;
 
   let margin = { top: 45, right: 40, bottom: 55, left: 90 };
+
+  /** Same horizontal margins as scatter so bar inner width matches the dot plot. */
+  let barChartHeight = 280;
+  $: barMargin = {
+    top: 34,
+    right: margin.right,
+    bottom: 52,
+    left: margin.left
+  };
 
   $: usableArea = (() => {
     const top = margin.top;
@@ -206,7 +214,8 @@
 
 <h1>Meta</h1>
 
-<div class="scatter-panel">
+<div class="meta-dashboard">
+  <div class="meta-scatter-wrap">
   <svg class="scatter-chart" viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
     <text
       x={margin.left + usableArea.width / 2}
@@ -286,13 +295,22 @@
     <dt>Lines edited</dt>
     <dd>{tooltipCommit?.totalLines ?? '—'}</dd>
   </dl>
+  </div>
+
+  <div class="meta-bar-wrap">
+    <BarHorizontal
+      embedded
+      width={width}
+      height={barChartHeight}
+      margin={barMargin}
+      data={barData}
+      title={barChartTitle}
+    />
+  </div>
 </div>
 
-<BarHorizontal data={barData} title={barChartTitle} />
-
 <style>
-  .scatter-panel {
-    position: relative;
+  .meta-dashboard {
     width: min(1100px, 100%);
     background: var(--card);
     border: 1px solid var(--border);
@@ -301,6 +319,16 @@
     padding: 24px;
     margin: 24px auto;
     box-sizing: border-box;
+  }
+
+  .meta-scatter-wrap {
+    position: relative;
+  }
+
+  .meta-bar-wrap {
+    margin-top: 8px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
   }
 
   .scatter-chart {

@@ -3,11 +3,11 @@
 
   export let data = [];
   export let title = '';
-
-  let width = 620;
-  let height = 280;
-
-  let margin = { top: 34, right: 96, bottom: 52, left: 84 };
+  /** When true, no outer card; stack legend under SVG so the chart matches a sibling plot width. */
+  export let embedded = false;
+  export let width = 620;
+  export let height = 280;
+  export let margin = { top: 34, right: 96, bottom: 52, left: 84 };
 
   $: innerWidth = width - margin.left - margin.right;
   $: innerHeight = height - margin.top - margin.bottom;
@@ -56,8 +56,8 @@
   }
 </script>
 
-<div class="container">
-  <svg class="bar-chart" viewBox="0 0 {width} {height}">
+<div class="container" class:embedded>
+  <svg class="bar-chart" class:bar-chart--full={embedded} viewBox="0 0 {width} {height}">
     <text
       x={margin.left + innerWidth / 2}
       y={margin.top / 2 + 4}
@@ -152,6 +152,20 @@
     margin: 18px auto;
   }
 
+  .container.embedded {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    gap: 14px;
+    flex-direction: column;
+    align-items: stretch;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   .bar-chart {
     flex: 2;
     max-width: 78%;
@@ -159,6 +173,17 @@
     overflow: visible;
     display: block;
     color: var(--text);
+  }
+
+  .bar-chart--full {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .container.embedded .legend {
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
   }
 
   .legend {
@@ -225,22 +250,26 @@
   }
 
   @media (max-width: 900px) {
-    .container {
+    .container:not(.embedded) {
       flex-direction: column;
     }
 
-    .bar-chart {
+    .container:not(.embedded) .bar-chart {
       max-width: 100%;
     }
 
-    .legend {
+    .container:not(.embedded) .legend {
       width: 100%;
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 520px) {
-    .legend {
+    .container:not(.embedded) .legend {
+      grid-template-columns: 1fr;
+    }
+
+    .container.embedded .legend {
       grid-template-columns: 1fr;
     }
   }
