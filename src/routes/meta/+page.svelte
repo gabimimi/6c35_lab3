@@ -175,35 +175,36 @@
       {/if}
     </g>
   </svg>
+
+  {#if hoveredCommit}
+    <dl class="info tooltip">
+      <dt>Commit</dt>
+      <dd>
+        <a href={hoveredCommit.url} target="_blank" rel="noopener noreferrer">{hoveredCommit.id}</a>
+      </dd>
+
+      <dt>Date</dt>
+      <dd>
+        {hoveredCommit.datetime?.toLocaleString('en', { dateStyle: 'full' })}
+      </dd>
+
+      <dt>Time</dt>
+      <dd>{hoveredCommit.time} <span class="tz">({hoveredCommit.timezone})</span></dd>
+
+      <dt>Author</dt>
+      <dd>{hoveredCommit.author}</dd>
+
+      <dt>Lines edited</dt>
+      <dd>{hoveredCommit.totalLines}</dd>
+    </dl>
+  {/if}
 </div>
-
-{#if hoveredCommit}
-  <dl class="info tooltip">
-    <dt>Commit</dt>
-    <dd>
-      <a href={hoveredCommit.url} target="_blank" rel="noopener noreferrer">{hoveredCommit.id}</a>
-    </dd>
-
-    <dt>Date</dt>
-    <dd>
-      {hoveredCommit.datetime?.toLocaleString('en', { dateStyle: 'full' })}
-    </dd>
-
-    <dt>Time</dt>
-    <dd>{hoveredCommit.time} <span class="tz">({hoveredCommit.timezone})</span></dd>
-
-    <dt>Author</dt>
-    <dd>{hoveredCommit.author}</dd>
-
-    <dt>Lines edited</dt>
-    <dd>{hoveredCommit.totalLines}</dd>
-  </dl>
-{/if}
 
 <BarHorizontal data={languageData} title="Lines of Code by Language" />
 
 <style>
   .scatter-panel {
+    position: relative;
     width: min(1100px, 100%);
     background: var(--card);
     border: 1px solid var(--border);
@@ -291,11 +292,12 @@
   }
 
   .tooltip {
-    position: fixed;
-    top: 1em;
-    left: 1em;
-    z-index: 3000;
-    max-width: min(340px, calc(100vw - 2em));
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    left: auto;
+    z-index: 2;
+    max-width: min(340px, calc(100% - 2rem));
     padding: 14px 18px;
     background: var(--panel-bg);
     border: 1px solid var(--border);
