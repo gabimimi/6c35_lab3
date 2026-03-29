@@ -176,28 +176,36 @@
     </g>
   </svg>
 
-  {#if hoveredCommit}
-    <dl class="info tooltip">
-      <dt>Commit</dt>
-      <dd>
+  <dl class="info tooltip" hidden={hoveredIndex === -1}>
+    <dt>Commit</dt>
+    <dd>
+      {#if hoveredCommit?.url}
         <a href={hoveredCommit.url} target="_blank" rel="noopener noreferrer">{hoveredCommit.id}</a>
-      </dd>
+      {:else}
+        <span class="tooltip-empty">—</span>
+      {/if}
+    </dd>
 
-      <dt>Date</dt>
-      <dd>
-        {hoveredCommit.datetime?.toLocaleString('en', { dateStyle: 'full' })}
-      </dd>
+    <dt>Date</dt>
+    <dd>
+      {hoveredCommit?.datetime?.toLocaleString('en', { dateStyle: 'full' }) ?? '—'}
+    </dd>
 
-      <dt>Time</dt>
-      <dd>{hoveredCommit.time} <span class="tz">({hoveredCommit.timezone})</span></dd>
+    <dt>Time</dt>
+    <dd>
+      {#if hoveredCommit}
+        {hoveredCommit.time} <span class="tz">({hoveredCommit.timezone})</span>
+      {:else}
+        <span class="tooltip-empty">—</span>
+      {/if}
+    </dd>
 
-      <dt>Author</dt>
-      <dd>{hoveredCommit.author}</dd>
+    <dt>Author</dt>
+    <dd>{hoveredCommit?.author ?? '—'}</dd>
 
-      <dt>Lines edited</dt>
-      <dd>{hoveredCommit.totalLines}</dd>
-    </dl>
-  {/if}
+    <dt>Lines edited</dt>
+    <dd>{hoveredCommit?.totalLines ?? '—'}</dd>
+  </dl>
 </div>
 
 <BarHorizontal data={languageData} title="Lines of Code by Language" />
@@ -260,6 +268,41 @@
     grid-template-columns: max-content 1fr;
     gap: 6px 14px;
     margin: 0;
+    transition-duration: 500ms;
+    transition-property: opacity, visibility;
+  }
+
+  /*
+    Keep tooltip in DOM for exit transitions. Native [hidden] uses display:none and blocks transitions,
+    so we force layout and fade with opacity/visibility. When [hidden] but user hovers/focuses the dl
+    (e.g. to click the commit link), keep it visible.
+  */
+  dl.info.tooltip[hidden] {
+    display: grid !important;
+  }
+
+  dl.info.tooltip[hidden]:not(:hover):not(:focus-within) {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  dl.info.tooltip[hidden]:hover,
+  dl.info.tooltip[hidden]:focus-within {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  dl.info.tooltip:not([hidden]) {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  dl.info .tooltip-empty {
+    color: var(--muted);
+    font-weight: 500;
   }
 
   dl.info dt {
