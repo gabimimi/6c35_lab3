@@ -174,16 +174,30 @@
     );
   }
 
-  $: languageData = d3.rollups(
-    locData,
-    v => v.length,
-    d => d.type
-  )
-    .map(([language, count]) => ({
-      label: String(language),
-      value: count
-    }))
-    .sort((a, b) => b.value - a.value);
+  /** All languages in the repo; bar order/value updates from selection without dropping categories. */
+  $: barData =
+    locData.length === 0
+      ? []
+      : (() => {
+          const selectedLines =
+            clickedCommits.length > 0
+              ? clickedCommits.flatMap(c => c.lines)
+              : locData;
+          const countByType = d3.rollup(selectedLines, v => v.length, d => d.type);
+          const allLanguages = Array.from(new Set(locData.map(d => d.type)));
+          return d3.sort(
+            allLanguages.map(lang => ({
+              label: String(lang),
+              value: countByType.get(lang) ?? 0
+            })),
+            (a, b) => b.value - a.value
+          );
+        })();
+
+  $: barChartTitle =
+    clickedCommits.length === 0
+      ? 'Website language breakdown'
+      : 'Language breakdown (selected commits)';
 </script>
 
 <svelte:head>
@@ -274,7 +288,7 @@
   </dl>
 </div>
 
-<BarHorizontal data={languageData} title="Lines of Code by Language" />
+<BarHorizontal data={barData} title={barChartTitle} />
 
 <style>
   .scatter-panel {
@@ -299,7 +313,7 @@
   }
 
   .chart-title {
-    font-size: 1em;
+    font-size: 0.88rem;
     font-weight: 700;
     fill: currentColor;
   }

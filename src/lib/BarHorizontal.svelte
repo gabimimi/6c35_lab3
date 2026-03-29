@@ -2,33 +2,38 @@
   import * as d3 from 'd3';
 
   export let data = [];
-  export let title = 'Lines of Code per Language';
+  export let title = '';
 
-  let width = 700;
-  let height = 380;
+  let width = 620;
+  let height = 280;
 
-  let margin = { top: 45, right: 170, bottom: 55, left: 90 };
-  let innerWidth = width - margin.left - margin.right;
-  let innerHeight = height - margin.top - margin.bottom;
+  let margin = { top: 34, right: 96, bottom: 52, left: 84 };
 
-  let xAxis;
-  let yAxis;
+  $: innerWidth = width - margin.left - margin.right;
+  $: innerHeight = height - margin.top - margin.bottom;
 
-  $: xScale = d3.scaleLinear()
+  $: xScale = d3
+    .scaleLinear()
     .domain([0, d3.max(data, d => d.value) || 1])
     .nice()
     .range([0, innerWidth]);
 
-  $: yScale = d3.scaleBand()
+  $: maxLineCount = d3.max(data, d => d.value) ?? 0;
+  /** Whole-number ticks only; cap count when totals are large (Step 5.4). */
+  $: xAxisTickCount = Math.max(1, Math.min(Math.ceil(maxLineCount), 10));
+
+  $: yScale = d3
+    .scaleBand()
     .domain(data.map(d => d.label))
     .range([0, innerHeight])
     .padding(0.2);
 
-  $: colorScale = d3.scaleOrdinal()
+  $: colorScale = d3
+    .scaleOrdinal()
     .domain(data.map(d => d.label))
     .range([
       'var(--accent-color)',
-      '#ff6fae',
+      'var(--accent-pink, #ff6fae)',
       '#8b7cff',
       '#c084fc',
       '#5ec8ff',
@@ -39,22 +44,23 @@
 
   $: maxBar = d3.greatest(data, d => d.value);
 
+  let xAxis;
+  let yAxis;
+
   $: if (xAxis && yAxis) {
     d3.select(xAxis).call(
-        d3.axisBottom(xScale)
-        .ticks(6)
-        .tickFormat(d3.format('~s'))
+      d3.axisBottom(xScale).ticks(xAxisTickCount).tickFormat(d3.format('d'))
     );
 
     d3.select(yAxis).call(d3.axisLeft(yScale));
-    }
+  }
 </script>
 
 <div class="container">
   <svg class="bar-chart" viewBox="0 0 {width} {height}">
     <text
       x={margin.left + innerWidth / 2}
-      y={margin.top / 2}
+      y={margin.top / 2 + 4}
       text-anchor="middle"
       class="chart-title">
       {title}
@@ -66,11 +72,7 @@
       bind:this={xAxis}
     ></g>
 
-    <g
-      class="y-axis"
-      transform="translate({margin.left}, {margin.top})"
-      bind:this={yAxis}
-    ></g>
+    <g class="y-axis" transform="translate({margin.left}, {margin.top})" bind:this={yAxis}></g>
 
     <g transform="translate({margin.left}, {margin.top})">
       {#each data as d}
@@ -80,7 +82,7 @@
           width={xScale(d.value)}
           height={yScale.bandwidth()}
           fill={colorScale(d.label)}
-          rx="10"
+          rx="8"
         />
       {/each}
 
@@ -93,22 +95,14 @@
           fill="none"
           stroke="currentColor"
           stroke-width="2"
-          rx="10"
-        />
-
-        <line
-          x1={xScale(maxBar.value)}
-          y1={yScale(maxBar.label) + yScale.bandwidth() / 2}
-          x2={xScale(maxBar.value) + 30}
-          y2={yScale(maxBar.label) + yScale.bandwidth() / 2}
-          stroke="currentColor"
-          stroke-width="1.5"
+          rx="8"
         />
 
         <text
-          x={xScale(maxBar.value) + 35}
+          x={xScale(maxBar.value) + 8}
           y={yScale(maxBar.label) + yScale.bandwidth() / 2}
           dominant-baseline="middle"
+          text-anchor="start"
           class="annotation">
           Most lines of code
         </text>
@@ -116,15 +110,16 @@
 
       <text
         x={innerWidth / 2}
-        y={innerHeight + margin.bottom - 10}
+        y={innerHeight + 20}
         text-anchor="middle"
         class="axis-label">
-        Number of Lines
+        <tspan x={innerWidth / 2} dy="0">Number of</tspan>
+        <tspan x={innerWidth / 2} dy="1.05em">lines</tspan>
       </text>
 
       <text
         x={-(innerHeight / 2)}
-        y={-margin.left + 20}
+        y={-margin.left + 18}
         text-anchor="middle"
         transform="rotate(-90)"
         class="axis-label">
@@ -145,21 +140,21 @@
 
 <style>
   .container {
-    width: min(1100px, 100%);
+    width: min(980px, 100%);
     display: flex;
     align-items: flex-start;
-    gap: 24px;
+    gap: 18px;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 22px;
     box-shadow: var(--shadow);
-    padding: 24px;
-    margin: 24px auto;
+    padding: 18px;
+    margin: 18px auto;
   }
 
   .bar-chart {
     flex: 2;
-    max-width: 80%;
+    max-width: 78%;
     height: auto;
     overflow: visible;
     display: block;
@@ -172,7 +167,7 @@
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 12px;
+    gap: 8px;
     align-content: start;
   }
 
@@ -181,11 +176,11 @@
     align-items: center;
     gap: 8px;
     color: var(--text);
-    font-size: 0.98rem;
+    font-size: 0.85rem;
     background: var(--article-bg);
     border: 1px solid var(--article-border);
-    border-radius: 14px;
-    padding: 10px 12px;
+    border-radius: 12px;
+    padding: 8px 10px;
     backdrop-filter: blur(8px);
   }
 
@@ -195,26 +190,26 @@
   }
 
   .swatch {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     border-radius: 4px;
     background: var(--color);
-    flex: 0 0 12px;
+    flex: 0 0 11px;
   }
 
   .chart-title {
-    font-size: 1em;
+    font-size: 0.88rem;
     font-weight: 700;
     fill: currentColor;
   }
 
   .axis-label {
-    font-size: 0.8em;
+    font-size: 0.68rem;
     fill: currentColor;
   }
 
   .annotation {
-    font-size: 0.72em;
+    font-size: 0.62rem;
     fill: currentColor;
     font-style: italic;
   }
@@ -226,12 +221,16 @@
 
   .bar-chart :global(.tick text) {
     fill: var(--muted);
-    font-size: 12px;
+    font-size: 10px;
   }
 
   @media (max-width: 900px) {
     .container {
       flex-direction: column;
+    }
+
+    .bar-chart {
+      max-width: 100%;
     }
 
     .legend {
