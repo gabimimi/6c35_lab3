@@ -7,6 +7,26 @@
   let width = 1000;
   let height = 600;
 
+  let margin = { top: 40, right: 40, bottom: 55, left: 75 };
+
+  $: usableArea = (() => {
+    const top = margin.top;
+    const right = width - margin.right;
+    const bottom = height - margin.bottom;
+    const left = margin.left;
+    return {
+      top,
+      right,
+      bottom,
+      left,
+      width: right - left,
+      height: bottom - top
+    };
+  })();
+
+  let xAxis;
+  let yAxis;
+
   let locData = [];
   let commits = [];
 
@@ -53,10 +73,24 @@
     maxDatePlusOne instanceof Date &&
     !Number.isNaN(minDate.valueOf()) &&
     !Number.isNaN(maxDatePlusOne.valueOf())
-      ? d3.scaleTime().domain([minDate, maxDatePlusOne]).range([0, width]).nice()
+      ? d3
+          .scaleTime()
+          .domain([minDate, maxDatePlusOne])
+          .range([usableArea.left, usableArea.right])
+          .nice()
       : null;
 
-  $: yScale = d3.scaleLinear().domain([24, 0]).range([height, 0]);
+  $: yScale = d3
+    .scaleLinear()
+    .domain([24, 0])
+    .range([usableArea.bottom, usableArea.top]);
+
+  $: if (xAxis && yAxis && xScale) {
+    d3.select(xAxis).call(d3.axisBottom(xScale));
+    d3.select(yAxis).call(
+      d3.axisLeft(yScale).tickFormat(d => String(d % 24).padStart(2, '0') + ':00')
+    );
+  }
 
   $: languageData = d3.rollups(
     locData,
@@ -77,14 +111,10 @@
 <h1>Meta</h1>
 
 <h3>Commits by time of day</h3>
-{#if locData.length > 0}
-  <p class="scatter-caption">
-    Each dot is one <strong>commit</strong> (many lines in <code>loc.csv</code> can share the same commit). Loaded
-    <strong>{commits.length}</strong> distinct commit{commits.length === 1 ? '' : 's'}.
-  </p>
-{/if}
-
 <svg viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
+  <g class="x-axis" transform="translate(0, {usableArea.bottom})" bind:this={xAxis} />
+  <g class="y-axis" transform="translate({usableArea.left}, 0)" bind:this={yAxis} />
+
   <g class="dots">
     {#if xScale}
       {#each commits as item, index (item.id)}
@@ -102,18 +132,24 @@
 <BarHorizontal data={languageData} title="Lines of Code by Language" />
 
 <style>
-  .scatter-caption {
-    margin: 0 0 12px;
-    font-size: 0.95rem;
-    color: var(--muted, #666);
-    max-width: 70ch;
-  }
-
   svg {
     display: block;
     width: 100%;
     max-width: 100%;
     height: auto;
     overflow: visible;
+    color: var(--text);
+  }
+
+  svg :global(.x-axis text),
+  svg :global(.y-axis text) {
+    fill: currentColor;
+    font-size: 12px;
+  }
+
+  svg :global(.domain),
+  svg :global(.tick line) {
+    stroke: currentColor;
+    opacity: 0.35;
   }
 </style>
