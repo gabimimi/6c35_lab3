@@ -33,8 +33,19 @@
   let commits = [];
 
   let hoveredIndex = -1;
-  $: hoveredCommit =
-    hoveredIndex >= 0 && hoveredIndex < commits.length ? commits[hoveredIndex] : null;
+  /** Last commit shown in the tooltip; kept during fade-out so content doesn’t flash to “—”. */
+  let tooltipCommit = null;
+
+  function onDotEnter(index) {
+    hoveredIndex = index;
+    if (index >= 0 && index < commits.length) {
+      tooltipCommit = commits[index];
+    }
+  }
+
+  function onDotLeave() {
+    hoveredIndex = -1;
+  }
 
   onMount(async () => {
     locData = await d3.csv(`${base}/loc.csv`, row => ({
@@ -168,8 +179,8 @@
             r={rScale(item.totalLines)}
             fill="var(--accent-color)"
             fill-opacity="0.55"
-            on:mouseenter={() => (hoveredIndex = index)}
-            on:mouseleave={() => (hoveredIndex = -1)}
+            on:mouseenter={() => onDotEnter(index)}
+            on:mouseleave={onDotLeave}
           />
         {/each}
       {/if}
@@ -179,8 +190,8 @@
   <dl class="info tooltip" hidden={hoveredIndex === -1}>
     <dt>Commit</dt>
     <dd>
-      {#if hoveredCommit?.url}
-        <a href={hoveredCommit.url} target="_blank" rel="noopener noreferrer">{hoveredCommit.id}</a>
+      {#if tooltipCommit?.url}
+        <a href={tooltipCommit.url} target="_blank" rel="noopener noreferrer">{tooltipCommit.id}</a>
       {:else}
         <span class="tooltip-empty">—</span>
       {/if}
@@ -188,23 +199,23 @@
 
     <dt>Date</dt>
     <dd>
-      {hoveredCommit?.datetime?.toLocaleString('en', { dateStyle: 'full' }) ?? '—'}
+      {tooltipCommit?.datetime?.toLocaleString('en', { dateStyle: 'full' }) ?? '—'}
     </dd>
 
     <dt>Time</dt>
     <dd>
-      {#if hoveredCommit}
-        {hoveredCommit.time} <span class="tz">({hoveredCommit.timezone})</span>
+      {#if tooltipCommit}
+        {tooltipCommit.time} <span class="tz">({tooltipCommit.timezone})</span>
       {:else}
         <span class="tooltip-empty">—</span>
       {/if}
     </dd>
 
     <dt>Author</dt>
-    <dd>{hoveredCommit?.author ?? '—'}</dd>
+    <dd>{tooltipCommit?.author ?? '—'}</dd>
 
     <dt>Lines edited</dt>
-    <dd>{hoveredCommit?.totalLines ?? '—'}</dd>
+    <dd>{tooltipCommit?.totalLines ?? '—'}</dd>
   </dl>
 </div>
 
