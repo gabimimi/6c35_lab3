@@ -40,6 +40,20 @@
   let commitTooltip = null;
   let tooltipPosition = { x: 0, y: 0 };
 
+  /** Commits toggled on by click (same object references as `commits`). */
+  let clickedCommits = [];
+
+  /** @param {number} index */
+  function toggleClickedCommit(index) {
+    const commit = commits[index];
+    if (!commit) return;
+    if (!clickedCommits.includes(commit)) {
+      clickedCommits = [...clickedCommits, commit];
+    } else {
+      clickedCommits = clickedCommits.filter(c => c !== commit);
+    }
+  }
+
   /**
    * @param {number} index
    * @param {MouseEvent} evt
@@ -47,6 +61,10 @@
   async function dotInteraction(index, evt) {
     if (evt.type === 'mouseleave') {
       hoveredIndex = -1;
+      return;
+    }
+    if (evt.type === 'click') {
+      toggleClickedCommit(index);
       return;
     }
     if (evt.type === 'mouseenter') {
@@ -195,8 +213,11 @@
       {#if xScale && rScale}
         {#each commits as item, index (item.id)}
           <circle
-            role="img"
-            aria-label={`Commit ${item.id}, ${item.totalLines} lines`}
+            role="button"
+            tabindex="0"
+            aria-pressed={clickedCommits.includes(item)}
+            aria-label={`Commit ${item.id}, ${item.totalLines} lines; toggle selection`}
+            class:selected={clickedCommits.includes(item)}
             cx={xScale(item.date)}
             cy={yScale(item.hourFrac)}
             r={rScale(item.totalLines)}
@@ -204,6 +225,12 @@
             fill-opacity="0.55"
             on:mouseenter={(e) => dotInteraction(index, e)}
             on:mouseleave={(e) => dotInteraction(index, e)}
+            on:click={(e) => dotInteraction(index, e)}
+            on:keydown={(e) => {
+              if (e.key !== 'Enter' && e.key !== ' ') return;
+              e.preventDefault();
+              toggleClickedCommit(index);
+            }}
           />
         {/each}
       {/if}
@@ -294,7 +321,13 @@
 
   .scatter-chart .dots :global(circle) {
     transition: fill 200ms, fill-opacity 200ms;
-    cursor: crosshair;
+    cursor: pointer;
+  }
+
+  /* Lab uses --color-accent; this site’s token is --accent-color */
+  .scatter-chart .dots :global(circle.selected) {
+    fill: var(--accent-color);
+    fill-opacity: 1;
   }
 
   .scatter-chart .dots :global(circle:hover) {
