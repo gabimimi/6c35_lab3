@@ -10,6 +10,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history so `elocuent` / git blame can see many commits (depth=1 → one dot on meta chart).
+          fetch-depth: 0
 
       - name: Install Node.js
         uses: actions/setup-node@v4

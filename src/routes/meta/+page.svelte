@@ -77,6 +77,12 @@
 <h1>Meta</h1>
 
 <h3>Commits by time of day</h3>
+{#if locData.length > 0}
+  <p class="scatter-caption">
+    Each dot is one <strong>commit</strong> (many lines in <code>loc.csv</code> can share the same commit). Loaded
+    <strong>{commits.length}</strong> distinct commit{commits.length === 1 ? '' : 's'}.
+  </p>
+{/if}
 
 <svg viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
   <g class="dots">
@@ -96,6 +102,13 @@
 <BarHorizontal data={languageData} title="Lines of Code by Language" />
 
 <style>
+  .scatter-caption {
+    margin: 0 0 12px;
+    font-size: 0.95rem;
+    color: var(--muted, #666);
+    max-width: 70ch;
+  }
+
   svg {
     display: block;
     width: 100%;
