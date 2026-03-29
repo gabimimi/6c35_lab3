@@ -1,51 +1,23 @@
 <script>
   import { computePosition, autoPlacement, offset } from '@floating-ui/dom';
   import { base } from '$app/paths';
-  import { onMount, tick } from 'svelte';
+  import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import BarHorizontal from '$lib/BarHorizontal.svelte';
 
-  /** Logical SVG width; synced to card inner width via ResizeObserver (client). */
   let width = 700;
   let height = 380;
 
-  /** @type {HTMLDivElement | undefined} */
-  let dashboardEl;
-
-  const SCATTER_ASPECT = 380 / 700;
-  const BAR_H_RATIO = 280 / 700;
-
-  /** Tighter margins on narrow widths so the plot area stays usable. */
-  $: margin =
-    width < 420
-      ? { top: 36, right: 22, bottom: 44, left: 44 }
-      : width < 520
-        ? { top: 38, right: 26, bottom: 48, left: 52 }
-        : width < 640
-          ? { top: 42, right: 32, bottom: 52, left: 64 }
-          : { top: 45, right: 40, bottom: 55, left: 90 };
+  let margin = { top: 45, right: 40, bottom: 55, left: 90 };
 
   /** Same horizontal margins as scatter so bar inner width matches the dot plot. */
-  $: barChartHeight = Math.max(200, Math.round(width * BAR_H_RATIO));
+  let barChartHeight = 280;
   $: barMargin = {
-    top: width < 520 ? 30 : 34,
+    top: 34,
     right: margin.right,
-    bottom: width < 520 ? 46 : 52,
+    bottom: 52,
     left: margin.left
   };
-
-  function syncChartSize() {
-    if (typeof window === 'undefined' || !dashboardEl) return;
-    const cs = getComputedStyle(dashboardEl);
-    const padX =
-      parseFloat(cs.paddingLeft || '0') + parseFloat(cs.paddingRight || '0');
-    const inner = dashboardEl.clientWidth - padX;
-    if (inner < 120) return;
-    const next = Math.max(300, Math.round(inner));
-    if (next === width) return;
-    width = next;
-    height = Math.max(240, Math.round(width * SCATTER_ASPECT));
-  }
 
   $: usableArea = (() => {
     const top = margin.top;
@@ -124,48 +96,34 @@
     }
   }
 
-  onMount(() => {
-    let ro;
+  onMount(async () => {
+    locData = await d3.csv(`${base}/loc.csv`, row => ({
+      ...row,
+      line: Number(row.line),
+      depth: Number(row.depth),
+      length: Number(row.length),
+      date: new Date(row.date + 'T00:00' + row.timezone),
+      datetime: new Date(row.datetime)
+    }));
 
-    (async () => {
-      locData = await d3.csv(`${base}/loc.csv`, row => ({
-        ...row,
-        line: Number(row.line),
-        depth: Number(row.depth),
-        length: Number(row.length),
-        date: new Date(row.date + 'T00:00' + row.timezone),
-        datetime: new Date(row.datetime)
-      }));
-
-      commits = d3.groups(locData, d => d.commit).map(([commit, lines]) => {
-        const first = lines[0];
-        const { author, date, time, timezone, datetime } = first;
-        return {
-          id: commit,
-          url: 'https://github.com/vis-society/lab-7/commit/' + commit,
-          author,
-          date,
-          time,
-          timezone,
-          datetime,
-          hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
-          totalLines: lines.length,
-          lines
-        };
-      });
-
-      commits = d3.sort(commits, d => -d.totalLines);
-    })();
-
-    tick().then(() => {
-      syncChartSize();
-      if (dashboardEl) {
-        ro = new ResizeObserver(() => syncChartSize());
-        ro.observe(dashboardEl);
-      }
+    commits = d3.groups(locData, d => d.commit).map(([commit, lines]) => {
+      const first = lines[0];
+      const { author, date, time, timezone, datetime } = first;
+      return {
+        id: commit,
+        url: 'https://github.com/vis-society/lab-7/commit/' + commit,
+        author,
+        date,
+        time,
+        timezone,
+        datetime,
+        hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
+        totalLines: lines.length,
+        lines
+      };
     });
 
-    return () => ro?.disconnect();
+    commits = d3.sort(commits, d => -d.totalLines);
   });
 
   // Thanks to Nathanael Jenkins for flagging this to us!
@@ -210,7 +168,7 @@
               ? [minTotalLines - 1, maxTotalLines + 1]
               : [minTotalLines, maxTotalLines]
           )
-          .range(width < 420 ? [3, 16] : width < 560 ? [4, 22] : [5, 30])
+          .range([5, 30])
       : null;
 
   $: if (xAxis && yAxis && yAxisGridlines && xScale && yScale) {
@@ -254,10 +212,9 @@
   <title>Meta</title>
 </svelte:head>
 
-<section class="meta-layout">
 <h1>Meta</h1>
 
-<div class="meta-dashboard" bind:this={dashboardEl}>
+<div class="meta-dashboard">
   <div class="meta-scatter-wrap">
   <svg class="scatter-chart" viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
     <text
@@ -351,30 +308,16 @@
     />
   </div>
 </div>
-</section>
 
 <style>
-  .meta-layout {
-    width: 100%;
-    max-width: min(1200px, calc(100vw - 36px));
-    margin-inline: auto;
-    box-sizing: border-box;
-  }
-
-  .meta-layout :global(h1) {
-    width: 100%;
-    max-width: none;
-    box-sizing: border-box;
-  }
-
   .meta-dashboard {
-    width: 100%;
+    width: min(1100px, 100%);
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 22px;
     box-shadow: var(--shadow);
-    padding: clamp(14px, 2.5vw, 24px);
-    margin: 16px 0 0;
+    padding: 24px;
+    margin: 24px auto;
     box-sizing: border-box;
   }
 
