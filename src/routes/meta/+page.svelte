@@ -27,6 +27,7 @@
 
   let xAxis;
   let yAxis;
+  let yAxisGridlines;
 
   let locData = [];
   let commits = [];
@@ -86,7 +87,11 @@
     .domain([24, 0])
     .range([usableArea.bottom, usableArea.top]);
 
-  $: if (xAxis && yAxis && xScale) {
+  $: if (xAxis && yAxis && yAxisGridlines && xScale && yScale) {
+    d3.select(yAxisGridlines).call(
+      d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width)
+    );
+    d3.select(yAxisGridlines).select('.domain').remove();
     d3.select(xAxis).call(d3.axisBottom(xScale));
     d3.select(yAxis).call(
       d3.axisLeft(yScale).tickFormat(d => String(d % 24).padStart(2, '0') + ':00')
@@ -122,6 +127,10 @@
     </text>
 
     <g class="x-axis" transform="translate(0, {usableArea.bottom})" bind:this={xAxis} />
+    <g
+      class="gridlines"
+      transform="translate({usableArea.left}, 0)"
+      bind:this={yAxisGridlines} />
     <g class="y-axis" transform="translate({usableArea.left}, 0)" bind:this={yAxis} />
 
     <g class="dots">
@@ -166,6 +175,11 @@
     font-size: 1em;
     font-weight: 700;
     fill: currentColor;
+  }
+
+  /* stroke-opacity inherits to D3-generated tick lines; avoid .gridlines line (Svelte purges it). */
+  .gridlines {
+    stroke-opacity: 0.2;
   }
 
   .scatter-chart :global(.domain),
