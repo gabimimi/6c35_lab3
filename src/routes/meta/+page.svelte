@@ -58,6 +58,8 @@
         lines
       };
     });
+
+    commits = d3.sort(commits, d => -d.totalLines);
   });
 
   // Thanks to Nathanael Jenkins for flagging this to us!
@@ -209,5 +211,13 @@
   .scatter-chart :global(.tick text) {
     fill: var(--muted);
     font-size: 12px;
+  }
+
+  .scatter-chart .dots :global(circle) {
+    transition: fill 200ms;
+  }
+
+  .scatter-chart .dots :global(circle:hover) {
+    fill: darkgreen;
   }
 </style>
