@@ -6,12 +6,12 @@
   import BarHorizontal from '$lib/BarHorizontal.svelte';
 
   let width = 700;
-  let height = 380;
+  let height = 300;
 
   let margin = { top: 45, right: 40, bottom: 55, left: 90 };
 
   /** Same horizontal margins as scatter so bar inner width matches the dot plot. */
-  let barChartHeight = 280;
+  let barChartHeight = 220;
   $: barMargin = {
     top: 34,
     right: margin.right,
