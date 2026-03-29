@@ -324,9 +324,8 @@
     cursor: pointer;
   }
 
-  /* Lab uses --color-accent; this site’s token is --accent-color */
   .scatter-chart .dots :global(circle.selected) {
-    fill: var(--accent-color);
+    fill: var(--accent-pink);
     fill-opacity: 1;
   }
 
