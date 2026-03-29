@@ -310,7 +310,9 @@
   }
 
   .scatter-chart :global(.domain),
-
+  .scatter-chart :global(.tick line) {
+    stroke: var(--border);
+  }
 
   .scatter-chart :global(.tick text) {
     fill: var(--muted);
@@ -320,6 +322,12 @@
   .scatter-chart .dots :global(circle) {
     transition: fill 200ms, fill-opacity 200ms;
     cursor: pointer;
+    outline: none;
+  }
+
+  .scatter-chart .dots :global(circle:focus-visible) {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
   }
 
   .scatter-chart .dots :global(circle.selected) {
