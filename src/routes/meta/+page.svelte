@@ -39,15 +39,22 @@
   });
 
   // Thanks to Nathanael Jenkins for flagging this to us!
-  $: [minDate, maxDate] = d3.extent(commits.map(d => d.date));
-  $: maxDatePlusOne = new Date(maxDate);
-  $: maxDatePlusOne.setDate(maxDatePlusOne.getDate() + 1);
+  // Single derived maxDatePlusOne (new Date) so Svelte/d3 always see a consistent domain;
+  // splitting assignment + in-place setDate() can run xScale before the +1 day mutation.
+  $: [minDate, maxDate] =
+    commits.length > 0 ? d3.extent(commits.map(d => d.date)) : [undefined, undefined];
+  $: maxDatePlusOne =
+    maxDate instanceof Date && !Number.isNaN(maxDate.valueOf())
+      ? d3.timeDay.offset(maxDate, 1)
+      : undefined;
 
-  $: xScale = d3
-    .scaleTime()
-    .domain([minDate, maxDatePlusOne])
-    .range([0, width])
-    .nice();
+  $: xScale =
+    minDate instanceof Date &&
+    maxDatePlusOne instanceof Date &&
+    !Number.isNaN(minDate.valueOf()) &&
+    !Number.isNaN(maxDatePlusOne.valueOf())
+      ? d3.scaleTime().domain([minDate, maxDatePlusOne]).range([0, width]).nice()
+      : null;
 
   $: yScale = d3.scaleLinear().domain([24, 0]).range([height, 0]);
 
@@ -71,16 +78,18 @@
 
 <h3>Commits by time of day</h3>
 
-<svg viewBox="0 0 {width} {height}">
+<svg viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
   <g class="dots">
-    {#each commits as commit, index}
-      <circle
-        cx={xScale(commit.datetime)}
-        cy={yScale(commit.hourFrac)}
-        r="5"
-        fill="steelblue"
-      />
-    {/each}
+    {#if xScale}
+      {#each commits as item, index (item.id)}
+        <circle
+          cx={xScale(item.datetime)}
+          cy={yScale(item.hourFrac)}
+          r="5"
+          fill="steelblue"
+        />
+      {/each}
+    {/if}
   </g>
 </svg>
 
@@ -88,6 +97,10 @@
 
 <style>
   svg {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
     overflow: visible;
   }
 </style>
