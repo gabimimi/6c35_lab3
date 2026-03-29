@@ -96,7 +96,7 @@
     Number.isFinite(minTotalLines) &&
     Number.isFinite(maxTotalLines)
       ? d3
-          .scaleLinear()
+          .scaleSqrt()
           .domain(
             minTotalLines === maxTotalLines
               ? [minTotalLines - 1, maxTotalLines + 1]
