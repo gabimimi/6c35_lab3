@@ -87,6 +87,24 @@
     .domain([24, 0])
     .range([usableArea.bottom, usableArea.top]);
 
+  $: [minTotalLines, maxTotalLines] =
+    commits.length > 0 ? d3.extent(commits.map(d => d.totalLines)) : [undefined, undefined];
+  $: rScale =
+    commits.length > 0 &&
+    minTotalLines != null &&
+    maxTotalLines != null &&
+    Number.isFinite(minTotalLines) &&
+    Number.isFinite(maxTotalLines)
+      ? d3
+          .scaleLinear()
+          .domain(
+            minTotalLines === maxTotalLines
+              ? [minTotalLines - 1, maxTotalLines + 1]
+              : [minTotalLines, maxTotalLines]
+          )
+          .range([5, 30])
+      : null;
+
   $: if (xAxis && yAxis && yAxisGridlines && xScale && yScale) {
     d3.select(yAxisGridlines).call(
       d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width)
@@ -134,13 +152,14 @@
     <g class="y-axis" transform="translate({usableArea.left}, 0)" bind:this={yAxis} />
 
     <g class="dots">
-      {#if xScale}
+      {#if xScale && rScale}
         {#each commits as item, index (item.id)}
           <circle
             cx={xScale(item.date)}
             cy={yScale(item.hourFrac)}
-            r="6"
+            r={rScale(item.totalLines)}
             fill="var(--accent-color)"
+            fill-opacity="0.55"
           />
         {/each}
       {/if}
