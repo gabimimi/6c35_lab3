@@ -10,8 +10,10 @@
     locData = await d3.csv(`${base}/loc.csv`, row => ({
       ...row,
       line: Number(row.line),
+      depth: Number(row.depth),
       length: Number(row.length),
-      depth: Number(row.depth)
+      date: new Date(row.date + 'T00:00' + row.timezone),
+      datetime: new Date(row.datetime)
     }));
   });
 
