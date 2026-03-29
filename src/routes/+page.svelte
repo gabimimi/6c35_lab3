@@ -2,6 +2,7 @@
     <title>Home</title>
 </svelte:head>
 <script>
+  import { base } from "$app/paths";
   import projects from "$lib/projects.json";
   import Project from "$lib/Project.svelte";
   import { onMount } from "svelte";
@@ -44,7 +45,7 @@
             time making fundamentals feel less scary. Off-screen, I play piano and sing!🎹</p>
 
         <!-- <img> (Image) tag is used to display images.-->
-        <img src="images/gabi.jpg" alt="a pic of myself... hopefully it loads soon!">
+        <img src="{base}/images/gabi.jpg" alt="a pic of myself... hopefully it loads soon!">
     </section>
 
   <section class="readingPanel">

@@ -1,10 +1,12 @@
 <script>
+  import { base } from '$app/paths';
+
   export let data = {};
 </script>
 
 <article class="readingItem">
   {#if data.image}
-    <img class="cover" src={data.image} alt={data.title} />
+    <img class="cover" src="{base}/{data.image}" alt={data.title} />
   {/if}
 
   <div class="meta">

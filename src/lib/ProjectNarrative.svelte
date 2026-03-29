@@ -1,4 +1,5 @@
 <script>
+  import { base } from '$app/paths';
   import Scrolly from "svelte-scrolly";
   import projects from "$lib/projects.json";
 
@@ -11,6 +12,12 @@
     sorted_projects.length - 1,
     Math.floor(scrollyProgress / progressPerProject)
   );
+
+  function projectImageSrc(/** @type {string} */ path) {
+    if (!path) return '';
+    if (path.startsWith('http://') || path.startsWith('https://')) return path;
+    return `${base}/${path.replace(/^\//, '')}`;
+  }
 </script>
 
 <section class="projectNarrative">
@@ -31,7 +38,7 @@
         <div class="project-detail">
           <h3>{sorted_projects[activeProjectIdx].year}</h3>
           <img
-            src={sorted_projects[activeProjectIdx].image}
+            src={projectImageSrc(sorted_projects[activeProjectIdx].image)}
             alt={sorted_projects[activeProjectIdx].title}
           />
         </div>

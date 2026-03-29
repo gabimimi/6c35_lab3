@@ -4,6 +4,21 @@
 
 
 
+<script>
+  function handleContactSubmit(/** @type {SubmitEvent} */ e) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (!(form instanceof HTMLFormElement)) return;
+    const fd = new FormData(form);
+    const from = String(fd.get('email') ?? '');
+    const subject = encodeURIComponent(String(fd.get('subject') ?? ''));
+    const body = encodeURIComponent(
+      `From: ${from}\n\n${String(fd.get('body') ?? '')}`
+    );
+    window.location.href = `mailto:gmmirand@mit.edu?subject=${subject}&body=${body}`;
+  }
+</script>
+
 <h1>Contact</h1>
 
 <section class="homepageContent">
@@ -12,7 +27,7 @@
             Want to reach out? Send me a message here — it'll open your email app with everything filled in.
         </p>
 
-        <form action="mailto:gmmirand@mit.edu" method="GET" enctype="text/plain" class="contactForm">
+        <form on:submit={handleContactSubmit} class="contactForm">
             <label>
                 Your email
                 <input name="email" type="email" placeholder="you@example.com" required>

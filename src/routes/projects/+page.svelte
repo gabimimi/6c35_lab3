@@ -3,6 +3,7 @@
 </svelte:head>
 
 <script>
+  import { base } from '$app/paths';
   import projects from '$lib/projects.json';
   import ProjectNarrative from '$lib/ProjectNarrative.svelte';
   import Project from '$lib/Project.svelte';
@@ -22,7 +23,7 @@
     .map(([year, count]) => ({ label: String(year), value: count }));
 
   onMount(async () => {
-    rawData = await d3.json('/lab6_example.json');
+    rawData = await d3.json(`${base}/lab6_example.json`);
 
     totalLines = d3.sum(rawData, d => d.lines);
 

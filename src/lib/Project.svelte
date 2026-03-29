@@ -1,12 +1,22 @@
 <script>
+  import { base } from '$app/paths';
+
   export let data = {};
+
+  $: imageSrc =
+    data.image &&
+    (String(data.image).startsWith('http://') || String(data.image).startsWith('https://'))
+      ? data.image
+      : data.image
+        ? `${base}/${String(data.image).replace(/^\//, '')}`
+        : '';
 </script>
 
 <article class="projectCard">
   <h2>{data.title}</h2>
 
   {#if data.image}
-    <img src={data.image} alt={data.title} />
+    <img src={imageSrc} alt={data.title} />
   {/if}
   <p>{data.year}</p>
   <p>{data.description}</p>

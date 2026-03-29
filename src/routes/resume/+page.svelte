@@ -2,8 +2,9 @@
   <title>Resume</title>
 </svelte:head>
 
-
-    
+<script>
+  import { base } from '$app/paths';
+</script>
 
   <h1>Resume</h1>
 
@@ -12,11 +13,11 @@
       <p>Here's my resume. You can view it below or download it.</p>
 
       <section class="resumeButtons">
-        <a class="btn" href="resume.pdf" download>Download PDF</a>
-        <a class="btn ghost" href="resume.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+        <a class="btn" href="{base}/Resume.pdf" download>Download PDF</a>
+        <a class="btn ghost" href="{base}/Resume.pdf" target="_blank" rel="noopener noreferrer">Open in new tab</a>
       </section>
 
-      <iframe class="resumeFrame" src="/6c35_lab3/Resume.pdf" title="Gabriela Miranda's Resume"></iframe>
+      <iframe class="resumeFrame" src="{base}/Resume.pdf" title="Gabriela Miranda's Resume"></iframe>
 
       <section aria-labelledby="education">
         <h2 id="education">Education</h2>

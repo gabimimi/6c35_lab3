@@ -2,63 +2,63 @@
   {
     "year": 2023,
     "title": "6.4500 - Web Design: Messaging + Event Planning App",
-    "image": "/6c35_lab3/images/web_design_messaging.webp",
+    "image": "images/web_design_messaging.webp",
     "description": "Developed a full-stack WhatsApp-like messaging app with event-planning features informed by user surveys. Designed both the front end and back end for smooth real-time communication and usability.",
     "story": "At this stage, I was mostly focused on becoming technically dangerous. I wanted to understand how systems worked end to end, from interface design to backend logic, and building this app felt like practice for bigger ambitions. It was less about messaging itself and more about proving to myself that I could build something complex, useful, and polished from scratch."
   },
   {
     "year": 2023,
     "title": "6.1020 - Software Construction: Web-Based Board Game",
-    "image": "/6c35_lab3/images/star-battle.png",
+    "image": "images/star-battle.png",
     "description": "Built a full-stack web-based board game, including a robust backend server capable of supporting multiple concurrent games. The project emphasized correctness, reliability, and intuitive interface design.",
     "story": "This project pushed me to think more rigorously about software quality. It was not enough for something to look good or work once; it had to be correct, stable, and understandable. I started seeing programming less as just building features and more as learning how to create systems that people could actually trust."
   },
   {
     "year": 2023,
     "title": "6.1800 - Computer Systems: Satellite Network Protocol",
-    "image": "/6c35_lab3/images/satellite.jpg",
+    "image": "images/satellite.jpg",
     "description": "Proposed and defined a network protocol for satellite-to-satellite communication. Designed system behaviors for edge cases and evaluated performance trade-offs, reliability, and design flaws.",
     "story": "By then I was becoming obsessed with systems thinking. I liked the idea that careful design decisions could shape what happened at scale, especially in environments where failure is expensive. Projects like this made me feel like I was sharpening the kind of technical mindset that could one day be used on much bigger problems."
   },
   {
     "year": 2024,
     "title": "Itaú Unibanco",
-    "image": "/6c35_lab3/images/itau.jpg",
+    "image": "images/itau.jpg",
     "description": "Helped tune a classification model used in decision-making for the modeling team at Itaú Unibanco headquarters. The model focused on high-stakes energy companies and classified them according to the bank’s internal risk ratings.",
     "story": "Working at a bank was an important turning point for me because it showed me what I did not want. I learned a lot about modeling, risk, and high-stakes decision systems, but I also realized I did not want my technical skills to mainly optimize decisions for large institutions and capital. It was the moment where I started asking not just whether I could build something powerful, but who that power was actually serving."
   },
   {
     "year": 2025,
     "title": "14.73 - The Privilege of Health",
-    "image": "/6c35_lab3/images/privilege.png",
+    "image": "images/privilege.png",
     "description": "Conducted interviews to analyze the Paraguayan public health system and its flaws. Interviewees included a doctor, a journalist, and a deputy working to combat corruption and improve public outcomes.",
     "story": "After finance, I felt myself moving closer to policy and public systems. This project mattered to me because it forced me to listen before trying to solve anything. Instead of optimizing models, I was trying to understand how inequality, corruption, and weak institutions shape real lives, especially for people who do not have the luxury of opting out."
   },
   {
     "year": 2025,
     "title": "14.73 - Policy Brief",
-    "image": "/6c35_lab3/images/policy.png",
+    "image": "images/policy.png",
     "description": "Prepared a policy brief on research conducted in Lebanon evaluating whether an empathy-based curriculum could support acceptance of Syrian refugees. The brief explained the background, RCT design, results, and implications for policymakers.",
     "story": "This was when writing started to feel like another form of engineering. A good policy brief is not just a summary; it is a way of translating evidence into action. I became increasingly drawn to work that could influence decisions affecting vulnerable communities, because it felt more meaningful than producing analysis that would only benefit the already powerful."
   },
   {
     "year": 2026,
     "title": "6.C35 - Personal Webpage",
-    "image": "/6c35_lab3/images/personal_webpage.png",
+    "image": "images/personal_webpage.png",
     "description": "Developed a personal webpage using HTML, CSS, Svelte, and JavaScript. The site continues to evolve with improved usability, design, and interactivity.",
     "story": "As my interests shifted, I did not leave computation behind; I started seeing it differently. Data science stopped being just a technical exercise and became a language for understanding people, institutions, and inequality. I began to realize that the same quantitative tools used in industry could also be redirected toward questions of justice, poverty, and public policy. That's why I added this c;ass! (the reason why this website exists)"
   },
   {
     "year": 2026,
     "title": "6.C35 - Poverty Analysis",
-    "image": "/6c35_lab3/images/antistatement.png",
+    "image": "images/antistatement.png",
     "description": "Used World Bank data to analyze how visual choices and framing can support or contradict a narrative. In this case, the project examined the claim that poverty is no longer a serious global problem.",
     "story": "This project felt like the clearest merger of my interests so far. It combined coding, data analysis, visual communication, and a political question I actually care about. What drew me in was the realization that data never simply speaks for itself; people use it to construct narratives, and those narratives can either expose injustice or hide it."
   },
   {
     "year": 2026,
     "title": "J-PAL (Poverty Action Lab)",
-    "image": "/6c35_lab3/images/J-PAL_Logo.png",
+    "image": "images/J-PAL_Logo.png",
     "description": "Built an AI agent to support matchmaking between researchers and initiatives within the J-PAL community. The tool allows natural-language querying and returns relevant information, saving significant time for both the Global Office and the Latin America and Caribbean Office.",
     "story": "This is the direction I feel myself moving toward most clearly now. I am still using computer science, machine learning, and systems design, but the purpose is different: helping research and policy organizations work more effectively on problems like poverty. It feels like a more honest use of my skills, one that connects the technical side of who I am with the social and political questions I no longer want to ignore."
   }
