@@ -1,4 +1,5 @@
 <script>
+  import { computePosition, autoPlacement, offset } from '@floating-ui/dom';
   import { base } from '$app/paths';
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
@@ -33,25 +34,40 @@
   let commits = [];
 
   let hoveredIndex = -1;
-  /** Viewport coordinates for tooltip placement (PointerEvent/MouseEvent clientX/Y). */
-  let cursor = { x: 0, y: 0 };
   /** Last commit shown in the tooltip; kept during fade-out so content doesn’t flash to “—”. */
   let tooltipCommit = null;
+  /** @type {HTMLDListElement | null} */
+  let commitTooltip = null;
+  let tooltipPosition = { x: 0, y: 0 };
 
   /**
    * @param {number} index
    * @param {MouseEvent} evt
    */
-  function onDotEnter(index, evt) {
-    cursor = { x: evt.clientX, y: evt.clientY };
-    hoveredIndex = index;
-    if (index >= 0 && index < commits.length) {
-      tooltipCommit = commits[index];
+  async function dotInteraction(index, evt) {
+    if (evt.type === 'mouseleave') {
+      hoveredIndex = -1;
+      return;
     }
-  }
-
-  function onDotLeave() {
-    hoveredIndex = -1;
+    if (evt.type === 'mouseenter') {
+      hoveredIndex = index;
+      if (index >= 0 && index < commits.length) {
+        tooltipCommit = commits[index];
+      }
+      const hoveredDot = evt.currentTarget;
+      if (!(hoveredDot instanceof Element) || !commitTooltip) return;
+      try {
+        const pos = await computePosition(hoveredDot, commitTooltip, {
+          strategy: 'fixed',
+          middleware: [offset(5), autoPlacement()]
+        });
+        if (hoveredIndex === index) {
+          tooltipPosition = { x: pos.x, y: pos.y };
+        }
+      } catch {
+        /* ignore layout errors (e.g. unmounted) */
+      }
+    }
   }
 
   onMount(async () => {
@@ -186,11 +202,8 @@
             r={rScale(item.totalLines)}
             fill="var(--accent-color)"
             fill-opacity="0.55"
-            on:mouseenter={(e) => onDotEnter(index, e)}
-            on:mousemove={(e) => {
-              cursor = { x: e.clientX, y: e.clientY };
-            }}
-            on:mouseleave={onDotLeave}
+            on:mouseenter={(e) => dotInteraction(index, e)}
+            on:mouseleave={(e) => dotInteraction(index, e)}
           />
         {/each}
       {/if}
@@ -199,9 +212,10 @@
 
   <dl
     class="info tooltip"
+    bind:this={commitTooltip}
     hidden={hoveredIndex === -1}
-    style:--cursor-x="{cursor.x}px"
-    style:--cursor-y="{cursor.y}px">
+    style:--tooltip-x="{tooltipPosition.x}px"
+    style:--tooltip-y="{tooltipPosition.y}px">
     <dt>Commit</dt>
     <dd>
       {#if tooltipCommit?.url}
@@ -361,8 +375,8 @@
 
   .tooltip {
     position: fixed;
-    top: calc(var(--cursor-y, 0px) + 12px);
-    left: calc(var(--cursor-x, 0px) + 12px);
+    top: var(--tooltip-y, 0px);
+    left: var(--tooltip-x, 0px);
     z-index: 4000;
     max-width: min(340px, calc(100vw - 24px));
     padding: 14px 18px;
