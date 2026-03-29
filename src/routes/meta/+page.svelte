@@ -32,6 +32,10 @@
   let locData = [];
   let commits = [];
 
+  let hoveredIndex = -1;
+  $: hoveredCommit =
+    hoveredIndex >= 0 && hoveredIndex < commits.length ? commits[hoveredIndex] : null;
+
   onMount(async () => {
     locData = await d3.csv(`${base}/loc.csv`, row => ({
       ...row,
@@ -157,17 +161,44 @@
       {#if xScale && rScale}
         {#each commits as item, index (item.id)}
           <circle
+            role="img"
+            aria-label={`Commit ${item.id}, ${item.totalLines} lines`}
             cx={xScale(item.date)}
             cy={yScale(item.hourFrac)}
             r={rScale(item.totalLines)}
             fill="var(--accent-color)"
             fill-opacity="0.55"
+            on:mouseenter={() => (hoveredIndex = index)}
+            on:mouseleave={() => (hoveredIndex = -1)}
           />
         {/each}
       {/if}
     </g>
   </svg>
 </div>
+
+{#if hoveredCommit}
+  <dl class="info tooltip">
+    <dt>Commit</dt>
+    <dd>
+      <a href={hoveredCommit.url} target="_blank" rel="noopener noreferrer">{hoveredCommit.id}</a>
+    </dd>
+
+    <dt>Date</dt>
+    <dd>
+      {hoveredCommit.datetime?.toLocaleString('en', { dateStyle: 'full' })}
+    </dd>
+
+    <dt>Time</dt>
+    <dd>{hoveredCommit.time} <span class="tz">({hoveredCommit.timezone})</span></dd>
+
+    <dt>Author</dt>
+    <dd>{hoveredCommit.author}</dd>
+
+    <dt>Lines edited</dt>
+    <dd>{hoveredCommit.totalLines}</dd>
+  </dl>
+{/if}
 
 <BarHorizontal data={languageData} title="Lines of Code by Language" />
 
@@ -214,10 +245,63 @@
   }
 
   .scatter-chart .dots :global(circle) {
-    transition: fill 200ms;
+    transition: fill 200ms, fill-opacity 200ms;
+    cursor: crosshair;
   }
 
   .scatter-chart .dots :global(circle:hover) {
-    fill: darkgreen;
+    fill: color-mix(in srgb, var(--accent-color) 55%, var(--text));
+    fill-opacity: 0.92;
+  }
+
+  dl.info {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 14px;
+    margin: 0;
+  }
+
+  dl.info dt {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  dl.info dd {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  dl.info dd a {
+    color: var(--accent-color);
+    font-weight: 700;
+  }
+
+  dl.info dd a:hover {
+    text-decoration: underline;
+  }
+
+  dl.info .tz {
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 0.88em;
+  }
+
+  .tooltip {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    z-index: 3000;
+    max-width: min(340px, calc(100vw - 2em));
+    padding: 14px 18px;
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 </style>
