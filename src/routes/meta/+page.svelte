@@ -247,7 +247,7 @@
   $: barChartTitle =
     selectedCommits.length === 0
       ? 'Website language breakdown'
-      : 'Language breakdown (selected commits)';
+      : `Lines of Code: ${selectedCommits.length} Selected Commits`;
 </script>
 
 <svelte:head>
