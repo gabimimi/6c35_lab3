@@ -81,11 +81,18 @@
 </script>
 
 <div class="line-chart-root">
-  <h3 class="line-chart-title">Lines Edited by Day</h3>
+  <h3 class="line-chart-title">
+    {#if hoveredDay}
+      Lines Edited on {hoveredDay}
+    {:else}
+      Lines Edited by Day
+    {/if}
+  </h3>
   <svg
     class="line-chart-svg"
     viewBox="0 0 {width} {height}"
-    preserveAspectRatio="xMidYMid meet">
+    preserveAspectRatio="xMidYMid meet"
+    on:mouseleave={() => (hoveredDay = null)}>
     <g class="x-axis" transform="translate(0, {usableArea.bottom})" bind:this={xAxis} />
     <g class="y-axis" transform="translate({usableArea.left}, 0)" bind:this={yAxis} />
 
@@ -106,6 +113,19 @@
       Number of Lines Edited
     </text>
 
+    {#each dayRegions as region (region.date.getTime())}
+      {#if hoveredDay === region.weekday}
+        <rect
+          x={region.x}
+          y={usableArea.top}
+          width={region.width}
+          height={usableArea.bottom - usableArea.top}
+          fill="var(--accent-color)"
+          opacity="0.2"
+        />
+      {/if}
+    {/each}
+
     {#if line && data.length}
       <path
         d={line(data)}
@@ -114,14 +134,38 @@
         stroke-width="2"
       />
       {#each data as d}
+        {@const isHighlighted =
+          hoveredDay !== null &&
+          d.date.toLocaleString('en', { weekday: 'long' }) === hoveredDay}
         <circle
           cx={xScale(d.date)}
           cy={yScale(d.count)}
-          r="3"
-          fill="steelblue"
+          r={isHighlighted ? 5 : 3}
+          fill={isHighlighted ? 'var(--accent-color)' : 'steelblue'}
         />
+        {#if isHighlighted}
+          <text
+            x={xScale(d.date)}
+            y={usableArea.top + 15}
+            text-anchor="middle"
+            font-size="12"
+            fill="var(--accent-color)">
+            {Math.round(d.count)}
+          </text>
+        {/if}
       {/each}
     {/if}
+
+    {#each dayRegions as region (region.date.getTime())}
+      <rect
+        x={region.x}
+        y={usableArea.top}
+        width={region.width}
+        height={usableArea.bottom - usableArea.top}
+        fill="transparent"
+        on:mouseenter={() => (hoveredDay = region.weekday)}
+      />
+    {/each}
   </svg>
 </div>
 
