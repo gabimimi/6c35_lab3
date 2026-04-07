@@ -50,13 +50,42 @@
           .y(d => yScale(d.count))
           .curve(d3.curveBumpX)
       : null;
+
+  let xAxis;
+  let yAxis;
+
+  $: if (xAxis && yAxis && xScale && yScale) {
+    d3.select(xAxis).call(d3.axisBottom(xScale));
+    d3.select(yAxis).call(d3.axisLeft(yScale));
+  }
 </script>
 
 <div class="line-chart-root">
+  <h3 class="line-chart-title">Lines Edited by Day</h3>
   <svg
     class="line-chart-svg"
     viewBox="0 0 {width} {height}"
     preserveAspectRatio="xMidYMid meet">
+    <g class="x-axis" transform="translate(0, {usableArea.bottom})" bind:this={xAxis} />
+    <g class="y-axis" transform="translate({usableArea.left}, 0)" bind:this={yAxis} />
+
+    <text
+      x={usableArea.left + (usableArea.right - usableArea.left) / 2}
+      y={height - 5}
+      text-anchor="middle"
+      class="axis-label">
+      Date
+    </text>
+
+    <text
+      x={-(usableArea.top + (usableArea.bottom - usableArea.top) / 2)}
+      y={10}
+      text-anchor="middle"
+      transform="rotate(-90)"
+      class="axis-label">
+      Number of Lines Edited
+    </text>
+
     {#if line && data.length}
       <path
         d={line(data)}
@@ -82,11 +111,35 @@
     margin: 16px auto 0;
   }
 
+  .line-chart-title {
+    margin: 0 0 12px;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
   .line-chart-svg {
     display: block;
     width: 100%;
     max-width: 100%;
     height: auto;
     overflow: visible;
+    color: var(--text);
+  }
+
+  .axis-label {
+    font-size: 0.8em;
+    fill: currentColor;
+  }
+
+  .line-chart-svg :global(.domain),
+  .line-chart-svg :global(.tick line) {
+    stroke: var(--border);
+  }
+
+  .line-chart-svg :global(.tick text) {
+    fill: var(--muted);
+    font-size: 12px;
   }
 </style>
