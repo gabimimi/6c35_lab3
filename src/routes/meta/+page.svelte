@@ -185,8 +185,16 @@
     );
   }
 
-  $: if (svg) {
-    d3.select(svg).call(d3.brush());
+  $: {
+    if (svg) {
+      d3.select(svg).call(
+        d3.brush().extent([
+          [usableArea.left, usableArea.top],
+          [usableArea.right, usableArea.bottom]
+        ])
+      );
+      d3.select(svg).selectAll('.dots, .overlay ~ *').raise();
+    }
   }
 
   /** All languages in the repo; bar order/value updates from selection without dropping categories. */
