@@ -54,6 +54,14 @@
   /** Commits toggled on by click (same object references as `commits`). */
   let clickedCommits = [];
 
+  /** @type {[[number, number], [number, number]] | null} */
+  let brushSelection = null;
+
+  /** @param {{ selection: [[number, number], [number, number]] | null }} evt */
+  function brushed(evt) {
+    brushSelection = evt.selection;
+  }
+
   /** @param {number} index */
   function toggleClickedCommit(index) {
     const commit = commits[index];
@@ -156,6 +164,21 @@
     .domain([24, 0])
     .range([usableArea.bottom, usableArea.top]);
 
+  /** @param {typeof commits[0]} commit */
+  function isCommitBrushed(commit) {
+    if (!brushSelection || !xScale || !yScale) return false;
+    const [[x0, y0], [x1, y1]] = brushSelection;
+    const [xmin, xmax] = d3.extent([x0, x1]);
+    const [ymin, ymax] = d3.extent([y0, y1]);
+    const cx = xScale(commit.date);
+    const cy = yScale(commit.hourFrac);
+    return cx >= xmin && cx <= xmax && cy >= ymin && cy <= ymax;
+  }
+
+  $: brushedCommits = brushSelection ? commits.filter(isCommitBrushed) : [];
+
+  $: selectedCommits = Array.from(new Set([...clickedCommits, ...brushedCommits]));
+
   $: [minTotalLines, maxTotalLines] =
     commits.length > 0 ? d3.extent(commits.map(d => d.totalLines)) : [undefined, undefined];
   $: rScale =
@@ -187,11 +210,15 @@
 
   $: {
     if (svg) {
+      d3.select(svg).selectAll('g.brush').remove();
       d3.select(svg).call(
-        d3.brush().extent([
-          [usableArea.left, usableArea.top],
-          [usableArea.right, usableArea.bottom]
-        ])
+        d3
+          .brush()
+          .extent([
+            [usableArea.left, usableArea.top],
+            [usableArea.right, usableArea.bottom]
+          ])
+          .on('start brush end', brushed)
       );
       d3.select(svg).selectAll('.dots, .overlay ~ *').raise();
     }
@@ -203,8 +230,8 @@
       ? []
       : (() => {
           const selectedLines =
-            clickedCommits.length > 0
-              ? clickedCommits.flatMap(c => c.lines)
+            selectedCommits.length > 0
+              ? selectedCommits.flatMap(c => c.lines)
               : locData;
           const countByType = d3.rollup(selectedLines, v => v.length, d => d.type);
           const allLanguages = Array.from(new Set(locData.map(d => d.type)));
@@ -218,7 +245,7 @@
         })();
 
   $: barChartTitle =
-    clickedCommits.length === 0
+    selectedCommits.length === 0
       ? 'Website language breakdown'
       : 'Language breakdown (selected commits)';
 </script>
@@ -257,9 +284,9 @@
           <circle
             role="button"
             tabindex="0"
-            aria-pressed={clickedCommits.includes(item)}
+            aria-pressed={selectedCommits.includes(item)}
             aria-label={`Commit ${item.id}, ${item.totalLines} lines; toggle selection`}
-            class:selected={clickedCommits.includes(item)}
+            class:selected={selectedCommits.includes(item)}
             cx={xScale(item.date)}
             cy={yScale(item.hourFrac)}
             r={rScale(item.totalLines)}
