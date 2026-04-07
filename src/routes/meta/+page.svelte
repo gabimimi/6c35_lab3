@@ -44,6 +44,33 @@
   let locData = [];
   let commits = [];
 
+  /** One row per calendar day: total line edits that day (for the line chart). */
+  let linesByDate = [];
+
+  $: {
+    if (locData.length === 0) {
+      linesByDate = [];
+    } else {
+      const rolled = d3
+        .rollups(locData, v => v.length, d => d3.timeDay.floor(d.datetime))
+        .map(([date, count]) => ({ date, count }));
+
+      const [minDate, maxDate] = d3.extent(rolled, d => d.date);
+      const allDays =
+        minDate instanceof Date &&
+        maxDate instanceof Date &&
+        !Number.isNaN(minDate.valueOf()) &&
+        !Number.isNaN(maxDate.valueOf())
+          ? d3.timeDays(minDate, d3.timeDay.offset(maxDate, 1))
+          : [];
+
+      linesByDate = allDays.map(date => ({
+        date,
+        count: rolled.find(d => d.date.getTime() === date.getTime())?.count ?? 0
+      }));
+    }
+  }
+
   let hoveredIndex = -1;
   /** Last commit shown in the tooltip; kept during fade-out so content doesn’t flash to “—”. */
   let tooltipCommit = null;
