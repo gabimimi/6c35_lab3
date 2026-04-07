@@ -381,9 +381,11 @@
       title={barChartTitle}
     />
   </div>
-</div>
 
-<LineChart data={linesByDate} />
+  <div class="meta-line-wrap">
+    <LineChart data={linesByDate} />
+  </div>
+</div>
 
 <style>
   .meta-dashboard {
@@ -401,6 +403,23 @@
     position: relative;
   }
 
+  .meta-bar-wrap {
+    margin-top: 8px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .meta-line-wrap {
+    margin-top: 8px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+
+  .meta-line-wrap :global(.line-chart-root) {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
 
   .scatter-chart {
     display: block;

@@ -107,8 +107,9 @@
 
 <style>
   .line-chart-root {
-    width: min(1100px, 100%);
-    margin: 16px auto 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
   }
 
   .line-chart-title {
