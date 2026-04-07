@@ -34,6 +34,9 @@
     };
   })();
 
+  /** @type {SVGSVGElement | undefined} Root scatter SVG (d3-brush). */
+  let svg;
+
   let xAxis;
   let yAxis;
   let yAxisGridlines;
@@ -182,6 +185,10 @@
     );
   }
 
+  $: if (svg) {
+    d3.select(svg).call(d3.brush());
+  }
+
   /** All languages in the repo; bar order/value updates from selection without dropping categories. */
   $: barData =
     locData.length === 0
@@ -216,7 +223,11 @@
 
 <div class="meta-dashboard">
   <div class="meta-scatter-wrap">
-  <svg class="scatter-chart" viewBox="0 0 {width} {height}" preserveAspectRatio="xMidYMid meet">
+  <svg
+    bind:this={svg}
+    class="scatter-chart"
+    viewBox="0 0 {width} {height}"
+    preserveAspectRatio="xMidYMid meet">
     <text
       x={margin.left + usableArea.width / 2}
       y={margin.top / 2}
@@ -325,11 +336,6 @@
     position: relative;
   }
 
-  .meta-bar-wrap {
-    margin-top: 8px;
-    padding-top: 22px;
-    border-top: 1px solid var(--border);
-  }
 
   .scatter-chart {
     display: block;
