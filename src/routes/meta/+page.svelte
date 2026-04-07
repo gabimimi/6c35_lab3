@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import BarHorizontal from '$lib/BarHorizontal.svelte';
+  import LineChart from '$lib/LineChart.svelte';
 
   let width = 700;
   let height = 300;
@@ -381,6 +382,8 @@
     />
   </div>
 </div>
+
+<LineChart data={linesByDate} />
 
 <style>
   .meta-dashboard {
