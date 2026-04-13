@@ -59,7 +59,7 @@
     "year": 2026,
     "title": "6.C35 - Poverty Analysis",
     "image": "images/antistatement.png",
-    "url": "",
+    "url": "https://gabimimi.github.io/assignment4/",
     "description": "Used World Bank data to analyze how visual choices and framing can support or contradict a narrative. In this case, the project examined the claim that poverty is no longer a serious global problem.",
     "story": "This project felt like the clearest merger of my interests so far. It combined coding, data analysis, visual communication, and a political question I actually care about. What drew me in was the realization that data never simply speaks for itself; people use it to construct narratives, and those narratives can either expose injustice or hide it."
   },
@@ -74,7 +74,7 @@
   {
     "year": 2026,
     "title": "6.C35 - Lab 9: Interactive Map",
-    "image": "images/6c35-lab9-map-placeholder.png",
+    "image": "images/bikewatching.png",
     "url": "https://gabimimi.github.io/6.c35-lab9/",
     "description": "Built an interactive web map with layered geographic data, exploration UI, and thoughtful visual design. The project brings together spatial data and front-end interactivity for an explorable “My Map” experience.",
     "story": "Mapping felt like a natural extension of the data storytelling work I had been doing: the same questions about what to emphasize, what to leave quiet, and how a reader moves through an argument now lived on a basemap. I wanted something people could wander through, not just scroll past."
