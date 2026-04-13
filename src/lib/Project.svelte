@@ -20,6 +20,11 @@
   {/if}
   <p>{data.year}</p>
   <p>{data.description}</p>
+  {#if data.url}
+    <p class="project-link">
+      <a href={data.url} target="_blank" rel="noopener noreferrer">View project</a>
+    </p>
+  {/if}
 </article>
 
 <style>
@@ -41,6 +46,15 @@ p{
   font-size: 1.8rem;
   line-height: 1.55;
   color: var(--muted);
+}
+
+.project-link {
+  margin-top: 10px;
+}
+
+.project-link a {
+  color: var(--accent-color);
+  font-size: 1.6rem;
 }
 
 img{
