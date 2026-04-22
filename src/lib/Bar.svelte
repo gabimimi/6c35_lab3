@@ -36,6 +36,7 @@
   $: maxBar = d3.least(data, d => d.value);
 
   let selectedIndex = -1;
+  let liveText = '';
 
   let barsLayer;
 
@@ -51,9 +52,9 @@
     const target = event.currentTarget;
 
     if (event.type === 'click') {
-      // SVG shapes often do not receive focus on click unless we request it.
       target?.focus({ preventScroll: true });
       selectedIndex = index;
+      liveText = `${data[index].label}: ${data[index].value} projects selected.`;
       return;
     }
 
@@ -92,8 +93,11 @@
     if (key === 'Enter' || key === ' ') {
       event.preventDefault();
       selectedIndex = index;
+      liveText = `${data[index].label}: ${data[index].value} projects selected.`;
     }
   }
+
+  $: description = `A bar chart showing project counts by year. ${data.map(d => `${d.label}: ${d.value} projects`).join(', ')}.`;
 
   $: if (xAxis && yAxis) {
     d3.select(xAxis).call(d3.axisBottom(xScale));
@@ -109,7 +113,7 @@
 <div class="container">
   <svg class="bar-chart" viewBox="0 0 {width} {height}" role="img" aria-labelledby="bar-title bar-desc">
     <title id="bar-title">Projects by Year</title>
-    <desc id="bar-desc">A bar chart showing the number of projects per year. Most projects are in 2024 and 2025.</desc>
+    <desc id="bar-desc">{description}</desc>
     <text
       x={margin.left + innerWidth / 2}
       y={margin.top / 2}
@@ -208,6 +212,7 @@
       </li>
     {/each}
   </ul>
+  <p aria-live="polite" class="sr-only">{liveText}</p>
 </div>
 
 <style>
@@ -284,6 +289,14 @@
     font-size: 0.72em;
     fill: currentColor;
     font-style: italic;
+  }
+
+  .sr-only {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
 
   rect {
