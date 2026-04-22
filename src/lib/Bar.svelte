@@ -38,7 +38,17 @@
   let selectedIndex = -1;
 
   function toggleBar(index, event) {
-    if (!event.key || event.key === 'Enter') {
+    const target = event.currentTarget;
+
+    if (event.type === 'click') {
+      // SVG shapes often do not receive focus on click unless we request it.
+      target?.focus({ preventScroll: true });
+      selectedIndex = index;
+      return;
+    }
+
+    if (event.type === 'keydown' && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
       selectedIndex = index;
     }
   }
@@ -90,7 +100,7 @@
           role="button"
           aria-label={`Year ${d.label}: ${d.value} projects`}
           on:click={(e) => toggleBar(index, e)}
-          on:keyup={(e) => toggleBar(index, e)}
+          on:keydown={(e) => toggleBar(index, e)}
         />
       {/each}
 
@@ -104,6 +114,7 @@
           stroke="currentColor"
           stroke-width="2"
           rx="10"
+          pointer-events="none"
         />
 
         <line
@@ -113,6 +124,7 @@
           y2={yScale(maxBar.value) + (innerHeight - yScale(maxBar.value)) / 2}
           stroke="currentColor"
           stroke-width="1.5"
+          pointer-events="none"
         />
 
         <text
