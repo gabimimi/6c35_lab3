@@ -138,7 +138,7 @@
           height={innerHeight - yScale(d.value)}
           fill={colorScale(d.label)}
           rx="10"
-          opacity={selectedIndex === -1 || selectedIndex === index ? 1 : 0.45}
+          style:opacity={selectedIndex === -1 || selectedIndex === index ? 1 : 0.45}
           tabindex="0"
           role="button"
           aria-label={`Year ${d.label}: ${d.value} projects`}
@@ -289,7 +289,6 @@
     outline: none;
   }
 
-  .bar-chart:hover rect:not(:hover),
   .container:focus-within rect:not(:focus-visible) {
     opacity: 50%;
   }
