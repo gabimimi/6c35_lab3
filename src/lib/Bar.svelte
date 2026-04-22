@@ -107,7 +107,9 @@
 </script>
 
 <div class="container">
-  <svg class="bar-chart" viewBox="0 0 {width} {height}">
+  <svg class="bar-chart" viewBox="0 0 {width} {height}" role="img" aria-labelledby="bar-title bar-desc">
+    <title id="bar-title">Projects by Year</title>
+    <desc id="bar-desc">A bar chart showing the number of projects per year. Most projects are in 2024 and 2025.</desc>
     <text
       x={margin.left + innerWidth / 2}
       y={margin.top / 2}
