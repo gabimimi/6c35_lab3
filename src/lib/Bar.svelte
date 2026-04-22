@@ -35,6 +35,14 @@
 
   $: maxBar = d3.least(data, d => d.value);
 
+  let selectedIndex = -1;
+
+  function toggleBar(index, event) {
+    if (!event.key || event.key === 'Enter') {
+      selectedIndex = index;
+    }
+  }
+
   $: if (xAxis && yAxis) {
     d3.select(xAxis).call(d3.axisBottom(xScale));
 
@@ -69,7 +77,7 @@
     ></g>
 
     <g transform="translate({margin.left}, {margin.top})">
-      {#each data as d}
+      {#each data as d, index}
         <rect
           x={xScale(d.label)}
           y={yScale(d.value)}
@@ -77,6 +85,12 @@
           height={innerHeight - yScale(d.value)}
           fill={colorScale(d.label)}
           rx="10"
+          opacity={selectedIndex === -1 || selectedIndex === index ? 1 : 0.45}
+          tabindex="0"
+          role="button"
+          aria-label={`Year ${d.label}: ${d.value} projects`}
+          on:click={(e) => toggleBar(index, e)}
+          on:keyup={(e) => toggleBar(index, e)}
         />
       {/each}
 
@@ -213,6 +227,22 @@
     font-size: 0.72em;
     fill: currentColor;
     font-style: italic;
+  }
+
+  rect {
+    transition: 300ms;
+    outline: none;
+  }
+
+  .bar-chart:hover rect:not(:hover),
+  .container:focus-within rect:not(:focus-visible) {
+    opacity: 50%;
+  }
+
+  rect:focus-visible {
+    stroke: white;
+    stroke-width: 2px;
+    stroke-dasharray: 4;
   }
 
   .bar-chart :global(.domain),
