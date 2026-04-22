@@ -37,6 +37,16 @@
 
   let selectedIndex = -1;
 
+  let barsLayer;
+
+  function focusBar(index) {
+    const el = barsLayer?.querySelector(`rect[data-bar-index="${index}"]`);
+    if (el instanceof SVGRectElement) {
+      el.focus({ preventScroll: true });
+    }
+    selectedIndex = index;
+  }
+
   function toggleBar(index, event) {
     const target = event.currentTarget;
 
@@ -47,7 +57,39 @@
       return;
     }
 
-    if (event.type === 'keydown' && (event.key === 'Enter' || event.key === ' ')) {
+    if (event.type !== 'keydown') return;
+
+    const { key } = event;
+
+    if (key === 'ArrowLeft' || key === 'ArrowUp') {
+      if (index > 0) {
+        event.preventDefault();
+        focusBar(index - 1);
+      }
+      return;
+    }
+
+    if (key === 'ArrowRight' || key === 'ArrowDown') {
+      if (index < data.length - 1) {
+        event.preventDefault();
+        focusBar(index + 1);
+      }
+      return;
+    }
+
+    if (key === 'Home') {
+      event.preventDefault();
+      focusBar(0);
+      return;
+    }
+
+    if (key === 'End') {
+      event.preventDefault();
+      focusBar(data.length - 1);
+      return;
+    }
+
+    if (key === 'Enter' || key === ' ') {
       event.preventDefault();
       selectedIndex = index;
     }
@@ -86,9 +128,10 @@
       bind:this={yAxis}
     ></g>
 
-    <g transform="translate({margin.left}, {margin.top})">
-      {#each data as d, index}
+    <g transform="translate({margin.left}, {margin.top})" bind:this={barsLayer}>
+      {#each data as d, index (d.label)}
         <rect
+          data-bar-index={index}
           x={xScale(d.label)}
           y={yScale(d.value)}
           width={xScale.bandwidth()}
