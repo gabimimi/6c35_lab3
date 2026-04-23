@@ -97,6 +97,13 @@
     }
   }
 
+  let showChart = true;
+
+  function toggleView() {
+    showChart = !showChart;
+    liveText = showChart ? 'Bar chart view shown.' : 'Table view shown.';
+  }
+
   $: description = `A bar chart showing project counts by year. ${data.map(d => `${d.label}: ${d.value} projects`).join(', ')}.`;
 
   $: if (xAxis && yAxis) {
@@ -110,6 +117,15 @@
   }
 </script>
 
+<button
+  on:click={toggleView}
+  aria-pressed={!showChart}
+  aria-label="Toggle between bar chart and table view"
+  class="toggle-button">
+  {showChart ? 'Show Table' : 'Show Chart'}
+</button>
+
+{#if showChart}
 <div class="container">
   <svg class="bar-chart" viewBox="0 0 {width} {height}" role="img" aria-labelledby="bar-title bar-desc">
     <title id="bar-title">Projects by Year</title>
@@ -214,8 +230,43 @@
   </ul>
   <p aria-live="polite" class="sr-only">{liveText}</p>
 </div>
+{:else}
+<table aria-label="Table showing project counts by year" class="data-table">
+  <caption>Projects by Year</caption>
+  <thead>
+    <tr>
+      <th id="year-header" scope="col">Year</th>
+      <th id="projects-header" scope="col">Projects</th>
+    </tr>
+  </thead>
+  <tbody>
+    {#each data as d, i}
+      <tr>
+        <th id="row-{i}" scope="row">{d.label}</th>
+        <td aria-labelledby="row-{i} projects-header">{d.value}</td>
+      </tr>
+    {/each}
+  </tbody>
+</table>
+<p aria-live="polite" class="sr-only">{liveText}</p>
+{/if}
 
 <style>
+  .toggle-button {
+    margin-bottom: 1rem;
+    padding: 0.5em 1.2em;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .toggle-button:hover {
+    background: var(--article-bg);
+  }
+
   .container {
     width: min(980px, 100%);
     display: flex;
@@ -343,5 +394,30 @@
     .legend {
       grid-template-columns: 1fr;
     }
+  }
+
+  .data-table {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 30em;
+  }
+
+  .data-table caption {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    text-align: left;
+  }
+
+  .data-table th,
+  .data-table td {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    text-align: left;
+  }
+
+  .data-table th {
+    background-color: #f0f0f0;
   }
 </style>
