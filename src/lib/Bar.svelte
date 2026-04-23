@@ -26,11 +26,11 @@
   $: colorScale = d3.scaleOrdinal()
     .domain(data.map(d => d.label))
     .range([
-      'var(--accent-color)',
-      '#ff6fae',
-      '#8b7cff',
-      '#c084fc',
-      '#5ec8ff'
+      '#0072B2',
+      '#E69F00',
+      '#009E73',
+      '#F0E442',
+      '#CC79A7'
     ]);
 
   $: maxBar = d3.least(data, d => d.value);
