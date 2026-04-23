@@ -25,13 +25,7 @@
 
   $: colorScale = d3.scaleOrdinal()
     .domain(data.map(d => d.label))
-    .range([
-      '#0072B2',
-      '#E69F00',
-      '#009E73',
-      '#F0E442',
-      '#CC79A7'
-    ]);
+    .range(d3.quantize(d3.interpolateBlues, data.length));
 
   $: maxBar = d3.least(data, d => d.value);
 
@@ -159,6 +153,7 @@
           width={xScale.bandwidth()}
           height={innerHeight - yScale(d.value)}
           fill={colorScale(d.label)}
+          stroke="black"
           rx="10"
           style:opacity={selectedIndex === -1 || selectedIndex === index ? 1 : 0.45}
           tabindex="0"
@@ -353,6 +348,8 @@
   rect {
     transition: 300ms;
     outline: none;
+    stroke: black;
+    stroke-width: 1;
   }
 
   .container:focus-within rect:not(:focus-visible) {
